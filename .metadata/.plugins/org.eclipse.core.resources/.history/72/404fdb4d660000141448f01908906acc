@@ -1,0 +1,251 @@
+/**
+ * 
+ */
+package rpgElements;
+
+import java.util.Random;
+
+import guiObjects.GameDisplayHandler;
+import guiObjects.Sprite;
+import guiObjects.WordCube;
+import rpgElements.*;
+import guiObjects.*;
+import wordHandler.*;
+import java.util.*;
+
+/**
+ * @author FritzOld
+ *
+ */
+public class Player extends CombatantBase implements Combatant 
+{
+
+	protected int damageReduction = 0;
+	protected int damageDone = 0;
+	protected String action = "none";
+	protected BlockGenerator tagMaker;
+	protected BlockManager tagManager;
+	protected AdventureHandler controller;
+	protected GameDisplayHandler display;
+	protected boolean turnFinished = false;
+	protected ArrayList<String> levelSeeds;
+	protected Sprite highlight;
+	protected Random generation = new Random();
+	protected Combatant currentTarget;
+	protected Sprite imageDisplay;
+	
+	
+	
+	
+	
+	/**
+	 * @return the action
+	 */
+	public String getAction() 
+	{
+		return action;
+	}
+	/**
+	 * @param action the action to set
+	 */
+	public void setAction(String action) 
+	{
+		this.action = action;
+		if(action.equals("attack"))
+		{
+			highlight.updateXLocation(-15);
+			highlight.updateYLocation(-10);
+		}
+		else
+		{
+			highlight.updateXLocation(90);
+			highlight.updateYLocation(-10);
+		}
+		//System.out.println(this.action);
+	}
+
+	/**
+	 * 
+	 */
+	public Player() 
+	{
+		//Need to set up image, and other stuff.
+		
+		// TODO Auto-generated constructor stub
+	}
+	public Player(AdventureHandler gameRunner, GameDisplayHandler mainDisplay) 
+	{
+		
+		//Need to set up image, and other stuff.
+		controller = gameRunner;
+		display = mainDisplay;
+		setUp();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public void setUp()
+	{
+		
+		
+		
+		//
+		highlight = new Sprite();
+		highlight.init("sun.png");
+		display.addNewSprite(highlight);
+		
+		
+		//
+		graphicDisplay = new Sprite();
+		healthDisplay = new WordCube();
+		graphicDisplay.init("player.png");
+		healthDisplay.init();
+		display.addNewSprite(graphicDisplay);
+		display.addNewWordCube(healthDisplay);
+		
+		
+		//healthDisplay.init();
+		health = 500;
+		healthMax = 500;
+		updateHealthDisplay();
+		//CODE FOR DISPLAYING WORDS AND WORD TAGS
+		tagMaker = new BlockGenerator();
+		tagManager = new BlockManager(display,this);
+		tagMaker.setBlockManager(tagManager);
+		tagMaker.setUp();
+		tagMaker.makeNewBlock(5);
+		tagMaker.makeNewBlock(5);
+		tagMaker.makeNewBlock(5);
+		tagMaker.makeNewBlock(5);
+		tagMaker.makeNewBlock(5);
+		
+		
+	}
+	
+	protected void setUpWordCubes()
+	{
+		//Need to get a image to display.
+		//Need to display a textbook.
+		//Need to roll randomly.
+		//Select a seed at random.
+		//Remove that seed.
+		//Generate the blocks with that seed.
+		//Display that seeds image.
+		//Set up word seeds.
+		levelSeeds = new ArrayList<String>();
+		levelSeeds.add("lizard");
+		levelSeeds.add("gunnery");
+		levelSeeds.add("boat");
+		
+		String seed = levelSeeds.get( generation.nextInt(2));
+		//CODE FOR DISPLAYING WORDS AND WORD TAGS
+		tagMaker = new BlockGenerator();
+		tagManager = new BlockManager(display,this);
+		tagMaker.setBlockManager(tagManager);
+		tagMaker.setUp();
+		tagMaker.makeNewBlock(5,seed);
+		tagMaker.makeNewBlock(5,seed);
+		tagMaker.makeNewBlock(5,seed);
+		tagMaker.makeNewBlock(5,seed);
+		tagMaker.makeNewBlock(5,seed);
+		//Display the image.
+		imageDisplay = new Sprite();
+		String concat = seed + ".png";
+		imageDisplay.init(concat);
+		display.addNewSprite(imageDisplay);
+		
+		
+	
+		
+	}
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+
+	}
+	
+	
+	@Override
+	public void onDeath() 
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void takeDamage( int damage ) 
+	{
+		// TODO Auto-generated method stub
+		if((damage - damageReduction) < 0)
+		{
+			;
+		}
+		else
+		{
+			health = health - (damage - damageReduction);
+		}
+		
+		checkIfDead();
+		damageReduction = 0;
+		this.updateHealthDisplay();
+
+	}
+	public void setCombatant( Combatant enemy )
+	{
+		currentTarget = enemy;
+	}
+
+	@Override
+	public void dealDamage(Combatant target) 
+	{
+		// TODO Auto-generated method stub
+		target.takeDamage(1);
+	}
+	public void dealDamage( int damageNumber ) 
+	{
+		// TODO Auto-generated method stub
+		if(damageNumber > 0)
+		{
+			currentTarget.takeDamage(damageNumber*3);
+		}
+		else
+		{
+			health = health - Math.abs(damageNumber);
+		}
+		
+	}
+
+	@Override
+	public void checkIfDead() 
+	{
+		// TODO Auto-generated method stub
+		if(health <= 0)
+		{
+			//Callback to main function goes here based on if its a player
+			//or a computer.
+		}
+		
+
+	}
+
+	@Override
+	public void takeTurn() 
+	{
+		
+		
+
+	}
+	public void takeTurn( int damage, int defenseBoost ) 
+	{
+		damageReduction = defenseBoost;
+		dealDamage(damage);
+		currentTarget.takeTurn();
+		
+
+	}
+	
+
+}

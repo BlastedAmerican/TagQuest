@@ -1,0 +1,190 @@
+package wordHandler;
+
+import java.util.ArrayList;
+
+public class WordBlock 
+{
+	public ArrayList<WordTag> wordList = new ArrayList<WordTag>(); // The ArrayList storing WordTags.
+	protected boolean playState = true; //Can this block be played or not?
+	protected BlockManager gameHandler;
+	/*
+	 * Placeholder constructor. 
+	 * Doesn't actually serve any purpose.
+	 */
+	public WordBlock()
+	{
+		
+	}
+	public void setGameHandler(BlockManager gameHandle)
+	{
+		gameHandler = gameHandle;
+	}
+	/*
+	 * Constructs a new wordList, taking a word list.
+	 * @param newList ArrayList<WordTag> the new Array list for the new WordBlock.
+	 */
+	public WordBlock( ArrayList<WordTag> newList )
+	{
+		wordList = newList;
+	}
+	/*
+	 * Creates a new WordBlock from a single WordTag.
+	 * @param newWord WordTag The new word to be used as the base of the tag.
+	 */
+	public WordBlock( WordTag newWord, BlockManager hq )
+	{
+		wordList = new ArrayList<WordTag>();
+		wordList.add(newWord);
+		gameHandler = hq;
+		
+	}
+	/*
+	 * Adds a new word from a WordTag.
+	 * @param WordTag newWord
+	 */
+	public void addWord( WordTag newWord)
+	{
+		wordList.add(newWord);
+	}
+	/*
+	 * Contructs and adds a new word tag.
+	 * @param newWord the new Word being added.
+	 * @param tagValue is the tag real or fake.
+	 * @param tagW the new tag weight
+	 */
+	public void addWord( String newWord, boolean tagValue, int tagW )
+	{
+		
+		wordList.add( new WordTag(newWord, tagValue, tagW, this ) );
+	}
+	/*
+	 * Attempts to remove a word from the group. If
+	 * no word can be found returns null.
+	 * 
+	 */
+	public WordTag removeWord( String removedWord )
+	{
+		WordTag toRemove = findWord( 0, removedWord );
+		if( toRemove != null)
+		{
+			wordList.remove(toRemove);
+			gameHandler.makeNewWordBlock(toRemove);
+			return toRemove;
+		}
+		else
+		{
+			System.out.println("ERROR WORD NOT FOUND");
+			return null;
+		}
+		
+	}
+	
+	public boolean getState()
+	{
+		return playState;
+	}
+	/*
+	 * This method currently returns a value for the block.
+	 * Right now, it handles if a false value is found.
+	 * However, this should probbaly be split in the future.
+	 * @return int The score of the block being returned.
+	 */
+	public int playBlock()
+	{
+		playState = false;
+		int playSum = 0;
+		int playMult = 1;
+		for( int x = 0; x < wordList.size();  x++ )
+		{
+			WordTag curWord = wordList.get(x);
+			if( curWord.isWordFakeTag() )
+			{
+				playMult = -1;
+			}
+			playSum += 1;
+		}
+		return (playSum * playMult);
+	}
+	/*
+	 * Recursive helper method to find if a word is in a string.
+	 * @param int curPos The current position in the array list.
+	 * @param String removeWord The string in the WordTag being searched for.
+	 * @return WordTag the WordTag found. Null if no tag found.
+	 */
+	private WordTag findWord(int curPos, String removeWord)
+	{
+		//String curWord = wordList.get(curPos).getWord();
+		if( curPos > wordList.size() - 1)
+		{
+			return null;
+		}
+		else 
+		{
+			String curWord = wordList.get(curPos).getWord();
+			if( curWord.equals(removeWord))
+			{
+				return wordList.get(curPos);
+			}
+			else
+			{
+				return findWord(curPos + 1, removeWord);
+			}
+		}
+		
+	}
+	public int getWordTagLocX( int startPoint, WordTag searchTag )
+	{
+		if( startPoint > wordList.size() - 1)
+		{
+			return -1;
+		}
+		else if( wordList.get(startPoint) == searchTag )
+		{
+			return startPoint;
+		}
+		else
+		{
+			System.out.println("Test")
+			return getWordTagLocX(startPoint+1,searchTag);
+		}
+	}
+	
+	public int getWordTagLocY( int startPoint )
+	{
+		return gameHandler.getWordTagLoc(startPoint, this);
+	}
+
+	public String toString()
+	{
+		return StringAppender(0,"");
+	}
+	private String StringAppender(int pos, String curAdd)
+	{
+		if(pos > wordList.size() - 1 )
+		{
+			return curAdd;
+		}
+		else
+		{
+			curAdd = curAdd + "("+wordList.get(pos)+")";
+			return StringAppender(pos+1, curAdd);
+		}
+	}
+	/*
+	 * Testing method for WordTag
+	 * @param String[] argv
+	 */
+	public static void main(String[] argv) 
+    {
+		WordBlock testBlock = new WordBlock();
+		testBlock.addWord("test",false,5);
+		WordTag testTag = new WordTag("potato",true,3,testBlock);
+		testBlock.addWord(testTag);
+		//WordTag test3 = testBlock.removeWord("cake");
+		//WordBlock testBlock2 = new WordBlock(test3);
+		//System.out.println(testBlock2);
+		System.out.println(testBlock);
+		System.out.println(testBlock.playBlock());
+		
+    }
+}

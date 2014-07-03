@@ -1,6 +1,17 @@
 package guiObjects;
 
+import java.io.IOException;
+
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
+
 
 /*
  * Sprite generates a quad object in the shape of 
@@ -9,13 +20,18 @@ import org.lwjgl.opengl.GL11;
  * but this one is written quickly and intended for 
  * prototyping.
  */
-public class Sprite 
+public class Sprite implements Moveable
 {
-	private int xPos; //X location of the quad when constructed.
-	private int yPos; //Y location of the quad when constructed.
-	private int width; //Width of the quad.
-	private int height; //Height of the quad.
-	
+	protected Texture boundImage;
+	protected int xPos; //X location of the quad when constructed.
+	protected int yPos; //Y location of the quad when constructed.
+	protected int mouseXPos;
+	protected int mouseYPos;
+	protected int width; //Width of the quad.
+	protected int height; //Height of the quad.
+	protected boolean mouseOver = false;
+	protected boolean isClicked = false;
+
 	/*
 	 * Basic Constructor. Takes no values.
 	 */
@@ -23,9 +39,8 @@ public class Sprite
 	{
 		xPos = 50;
 		yPos = 50;
-		width = 50;
-		height = 50;
-				
+		
+
 	}
 	/*
 	 * Secondary constructor.
@@ -35,33 +50,134 @@ public class Sprite
 	{
 		xPos = xPosition;
 		yPos = yPosition;
-		width = 50;
-		height = 50;
+		
 	}
-	public Sprite( int xPosition, int yPosition, int widthN, int heightN )
+	public int getXPos()
 	{
-		xPos = xPosition;
-		yPos = yPosition;
-		width = widthN;
-		height = heightN;
+		return xPos;
+	}
+	public int getYPos()
+	{
+		return yPos;
 	}
 	public void drawQuad()
 	{
-		//GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);	
-		 
-	    // set the color of the quad (R,G,B,A)
-	    GL11.glColor3f(0.5f,0.5f,1.0f);
- 
-	    // draw quad
-	    GL11.glBegin(GL11.GL_QUADS);
-	        GL11.glVertex2f(xPos,yPos);
-		GL11.glVertex2f(xPos+width,yPos);
-		GL11.glVertex2f(xPos+width,yPos+height);
-		GL11.glVertex2f(xPos,yPos+height);
-	    GL11.glEnd();
+		try
+		{
+			//GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);	
+
+			Color.white.bind();
+			boundImage.bind(); // or GL11.glBind(texture.getTextureID());
+			// set the color of the quad (R,G,B,A)
+			GL11.glColor3f(1.0f,1.0f,1.0f);
+
+			// draw quad
+			GL11.glBegin(GL11.GL_QUADS);
+			GL11.glTexCoord2f(0,0);
+			GL11.glVertex2f(xPos,yPos);
+			GL11.glTexCoord2f(1,0);
+			GL11.glVertex2f(xPos+boundImage.getTextureWidth(),yPos);
+			GL11.glTexCoord2f(1,1);
+			GL11.glVertex2f(xPos+boundImage.getTextureWidth(),yPos+boundImage.getTextureHeight());
+			GL11.glTexCoord2f(0,1);
+			GL11.glVertex2f(xPos,yPos+boundImage.getTextureHeight());
+			GL11.glEnd();
+		}
+		catch( Exception e )
+		{
+			System.err.println("No openGL Context Found");
+
+		}
 	}
+	/*
+	 * Load and bind an image.
+	 * 
+	 */
+	public void init(String imageLocation) 
+	{
+
+		try 
+		{
+			// load texture from PNG file
+			//boundImage = TextureLoader.getTexture("GIF", ResourceLoader.getResourceAsStream("spaceinvaders/"+imageLocation));
+			boundImage = TextureLoader.getTexture("GIF", ResourceLoader.getResourceAsStream("tagQuestImages/"+imageLocation));
+
+//			System.out.println("Texture loaded: "+boundImage);
+//			System.out.println(">> Image width: "+boundImage.getImageWidth());
+//			System.out.println(">> Image height: "+boundImage.getImageHeight());
+//			System.out.println(">> Texture width: "+boundImage.getTextureWidth());
+//			System.out.println(">> Texture height: "+boundImage.getTextureHeight());
+//			System.out.println(">> Texture ID: "+boundImage.getTextureID());
+			height = boundImage.getImageHeight();
+			width = boundImage.getImageWidth();
+		} 
+		catch(IOException e) 
+		{
+			e.printStackTrace();
+		}
+		//Mouse theMouse = new Mouse();
+		//mouse.create();
+	}
+	public void setLocation(int x, int y)
+	{
+		updateXLocation(x);
+		updateYLocation(y);
+	}
+	
 	public void updateXLocation(int newXLoc)
 	{
 		xPos = newXLoc;
+	}
+	public void updateYLocation(int newYLoc)
+	{
+		yPos = newYLoc;
+	}
+	public void moveByInX(int xMovement)
+	{
+		xPos = xMovement + xPos;
+	}
+	public void moveByInY(int yMovement)
+	{
+		yPos = yMovement + yPos;
+	}
+	public void getMousePos( int mouseX, int mouseY)
+	{
+		mouseXPos = mouseX;
+		mouseYPos = mouseY;
+		boolean test = this.detectMouseOver();
+		
+	}
+	public boolean detectMouseOver()
+	{
+		if(xPos < mouseXPos && xPos + width > mouseXPos)
+		{
+			if(yPos < mouseYPos && yPos + height > mouseYPos)
+			{
+				//System.out.println("MOuseOvered");
+				mouseOver = true;
+				return mouseOver;
+			}
+		}
+		
+		
+		mouseOver = false;
+		return mouseOver;
+			
+	}
+	public void animate()
+	{
+		
+	}
+	public void mouseDown( boolean mouseDown )
+	{
+		if( mouseDown && mouseOver )
+		{
+			//System.out.println("Mouse Clicked");
+			isClicked = true;
+		}
+		else
+		{
+			isClicked = false;
+		}
 	}
 }

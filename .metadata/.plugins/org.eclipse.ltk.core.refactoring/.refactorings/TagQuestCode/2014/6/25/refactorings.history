@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Encapsulate field &apos;wordHandler.BlockManager.blockCase&apos; in &apos;wordHandler.BlockManager&apos;&#x0A;- Original project: &apos;TagQuestCode&apos;&#x0A;- Original element: &apos;wordHandler.BlockManager.blockCase&apos;&#x0A;- Getter method name: &apos;getBlockCase&apos;&#x0A;- Setter method name: &apos;setBlockCase&apos;&#x0A;- Field visibility: &apos;public&apos;&#x0A;- Use getter and setter methods in declaring type&#x0A;- Generate method comments" comments="true" declaring="true" description="Encapsulate field &apos;blockCase&apos;" flags="589830" getter="getBlockCase" id="org.eclipse.jdt.ui.self.encapsulate" input="/src&lt;wordHandler{BlockManager.java[BlockManager^blockCase" insertion="7" setter="setBlockCase" stamp="1403021494681" version="1.0" visibility="1"/>
+</session>

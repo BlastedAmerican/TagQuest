@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="org.lwjgl.input.Mouse"/>
+<fullyQualifiedTypeName name="wordHandler.WordBlock"/>
+<fullyQualifiedTypeName name="guiObjects.Sprite"/>
+<fullyQualifiedTypeName name="guiObjects.GameDisplayHandler"/>
+<fullyQualifiedTypeName name="rpgElements.Player"/>
+<fullyQualifiedTypeName name="wordHandler.WordTag"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+</qualifiedTypeNameHistroy>

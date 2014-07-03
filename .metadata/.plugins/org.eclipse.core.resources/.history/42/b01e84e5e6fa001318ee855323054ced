@@ -1,0 +1,90 @@
+package guiObjects;
+import rpgElements.*;
+import wordHandler.*;
+
+import java.util.ArrayList;
+
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
+/*
+ * Handles tasks involving displaying objects.
+ */
+public class GameDisplayHandler {
+
+	protected ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+	protected ArrayList<WordCube> textList = new ArrayList<WordCube>();
+	public GameDisplayHandler() 
+	{
+		// TODO Auto-generated constructor stub
+	}
+	public void StartGameDraw()
+	{
+		//Start up and create the display.
+		try 
+		{
+			Display.setDisplayMode(new DisplayMode(800,600));
+			Display.create();
+			Display.setVSyncEnabled(true);
+		} 
+		catch (LWJGLException e) 
+		{
+			e.printStackTrace();
+			System.exit(0);
+		}
+
+		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GL11.glLoadIdentity();
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glShadeModel(GL11.GL_SMOOTH);        
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDisable(GL11.GL_LIGHTING);                    
+		GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);                
+		GL11.glClearDepth(1);                                       
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glViewport(0,0,800,600);
+		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GL11.glLoadIdentity();
+		GL11.glOrtho(0, Display.getWidth(), Display.getHeight(), 0, 1, -1);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		
+		this.updateLoop();
+		
+	}
+	public void updateLoop()
+	{
+		while (!Display.isCloseRequested()) 
+		{
+			int mouseXPos = Mouse.getX();
+			int mouseYPos = Math.abs( 600-Mouse.getY() );
+			for( int spriteCount = 0; spriteCount < spriteList.size(); spriteCount++ )
+			{
+				spriteList.get(spriteCount).drawQuad();
+			}
+			for( int wordCount = 0; wordCount < textList.size(); wordCount++ )
+			{
+				textList.get(wordCount).render();
+			}
+		}
+	}
+	
+	public void addNewSprite(Sprite newSprite)
+	{
+		spriteList.add( newSprite );
+	}
+	public void addNewWordCube( WordCube newWordCube )
+	{
+		textList.add( newWordCube );
+	}
+
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+}

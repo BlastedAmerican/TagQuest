@@ -1,0 +1,127 @@
+package rpgElements;
+import java.util.*;
+//import guiObjects.GameDisplayHandler;
+import guiObjects.*;
+import rpgElements.*;
+/*
+ * Adventure Handler is the main control for the 
+ * rpg elements in TagQuest. 
+ */
+public class AdventureHandler 
+{
+	protected ArrayList<Enemy> nixonsList;
+	protected Player player;
+	protected Combatant activeEnemy;
+	protected GameDisplayHandler objectDisplay;
+	protected Button attackButton;
+	protected Button defendButton;
+	protected int enemyCount = 3;
+	protected Sprite highlight;
+	
+	public AdventureHandler()
+	{
+		
+	}
+	public AdventureHandler( GameDisplayHandler display)
+	{
+		objectDisplay = display;
+		playSetUp();
+	}
+	
+	public void playSetUp()
+	{
+		//Create Player Object
+		player = new Player(this,objectDisplay);
+		
+		//SET UP BUTTONS
+		attackButton = new Button("attack.png","attack.png","attack",player );
+		defendButton = new Button("defend.png","defend.png","defend",player );
+		highlight = new Sprite();
+		highlight.init("sun.png");
+		objectDisplay.addNewSprite(highlight);
+		objectDisplay.addNewSprite(attackButton);
+		objectDisplay.addNewSprite(defendButton);
+		attackButton.setLocation(0,0);
+		defendButton.setLocation(100,0);
+		//END BUTTON SET UP
+		
+		nixonsList = new ArrayList<Enemy>();
+		//System.out.println(nixonsList.size());
+		//System.out.println(nixonsList);
+		for(int x = 0; nixonsList.size() != enemyCount; x++)
+		{
+			
+			Enemy enemyInstance = new Enemy(this,objectDisplay);
+			//enemyInstance.setUp();
+			nixonsList.add(enemyInstance);
+			//System.out.println(nixonsList.size());
+			//System.out.println(nixonsList);
+		
+			
+		}
+		setUpLocations();
+		if( nixonsList.size() > 0 )
+		{
+			nixonsList.get(0).enterCombat(player);
+			player.setCombatant(nixonsList.get(0));
+			activeEnemy = nixonsList.get(0);
+		}
+		
+		
+	}
+	protected void setUpLocations()
+	{
+		int x = 0;
+		for(Enemy e: nixonsList)
+		{
+			x++;
+			e.setLocation(200+100*x,300);
+			//e.setLocation(300+10,200);
+			
+		}
+		player.setLocation(200, 300);
+	}
+	
+	public void onEnemyDeath()
+	{
+		
+		
+	}
+	
+	public void onEnemyDeath(Enemy deadFighter)
+	{
+		nixonsList.remove(deadFighter);
+		if( nixonsList.size() > 0)
+		{
+			deadFighter.die();
+			
+			nixonsList.get(0).enterCombat(player);
+			activeEnemy = nixonsList.get(0);
+			player.setCombatant(activeEnemy);
+		}
+		else
+		{
+			//Needs to generate a new level characters.
+			System.out.println("You win!");
+		}
+		
+	}
+	
+	public void endTurn( Combatant lastPlayer )
+	{
+		if(lastPlayer == player)
+		{
+			activeEnemy.takeTurn();
+		}
+		else if(lastPlayer == activeEnemy)
+		{
+			player.takeTurn();
+		}
+	}
+	public void onPlayerDeath()
+	{
+		//Code to restart the game goes here.
+		
+	}
+
+}

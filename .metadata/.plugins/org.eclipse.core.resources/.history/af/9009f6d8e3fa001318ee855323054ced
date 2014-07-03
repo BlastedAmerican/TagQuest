@@ -1,0 +1,16 @@
+package guiObjects;
+/*
+ * Handles tasks involving displaying objects.
+ */
+public class GameDisplayHandler {
+
+	public GameDisplayHandler() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

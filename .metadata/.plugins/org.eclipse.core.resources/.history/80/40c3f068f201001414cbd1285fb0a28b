@@ -1,0 +1,24 @@
+package guiObjects;
+
+import rpgElements.Player;
+
+public class NewGameButton extends Button {
+
+	public NewGameButton(String image, String image2, AdventureHandler caller)
+	{
+		
+	}
+	public NewGameButton(String image, String image2, String input,
+			Player inputReceive) 
+	{
+		super(image, image2, input, inputReceive);
+		// TODO Auto-generated constructor stub
+	}
+
+	public NewGameButton(int xPosition, int yPosition) 
+	{
+		super(xPosition, yPosition);
+		// TODO Auto-generated constructor stub
+	}
+
+}

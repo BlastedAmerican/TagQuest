@@ -1,0 +1,5 @@
+*.class
+*.zip
+*.csv
+.DS_Store
+.DS_Store?

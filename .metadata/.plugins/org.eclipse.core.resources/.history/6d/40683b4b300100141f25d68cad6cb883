@@ -1,0 +1,178 @@
+/**
+ * 
+ */
+package rpgElements;
+
+import guiObjects.Sprite;
+import guiObjects.WordCube;
+import java.util.Random;
+import guiObjects.GameDisplayHandler;
+/**
+ * @author FritzOld
+ * Enemy is a simple basic enemy. It doesn't require much to function,
+ * and could be extended into more complex variants.
+ */
+public class Enemy extends CombatantBase {
+
+	protected AdventureHandler controller;
+	protected Random randomGen = new Random();
+	protected GameDisplayHandler display;
+	protected int attackCount = 0;
+	/**
+	 * 
+	 */
+	public Enemy(AdventureHandler gameRunner) 
+	{
+		// TODO Auto-generated constructor stub
+		setUp();
+		controller = gameRunner;
+	}
+	public Enemy(AdventureHandler gameRunner, GameDisplayHandler mainDisplay) 
+	{
+		// TODO Auto-generated constructor stub
+		
+		controller = gameRunner;
+		display = mainDisplay;
+		setUp();
+	}
+	
+	@Override
+	public void setUp() 
+	{
+		// TODO Auto-generated method stub
+		graphicDisplay = new Sprite();
+		healthDisplay = new WordCube();
+		graphicDisplay.init("enemy.png");
+		healthDisplay.init();
+		display.addNewSprite(graphicDisplay);
+		display.addNewWordCube(healthDisplay);
+		
+		
+		healthDisplay.init();
+		health = 15;
+		healthMax = 15;
+		updateHealthDisplay();
+		
+		
+		
+
+	}
+	
+	public void die()
+	{
+		//Death animation goes here.
+	}
+
+	@Override
+	public void onDeath() 
+	{
+		// TODO Auto-generated method stub
+		//Will call a method in 
+		//controller.enemyDeath(this);
+		this.animateDefeat();
+		controller.onEnemyDeath(this);
+		System.out.println("The de-tagger has been destroyed.");
+		
+
+	}
+
+	@Override
+	public void takeDamage(int damage) 
+	{
+		// TODO Auto-generated method stub
+		health = health - damage;
+		updateHealthDisplay();
+		
+
+	}
+
+	@Override
+	public void dealDamage(Combatant target) 
+	{
+		System.out.println("\"Beep boop destory stupid robot\"");
+		attackCount++;
+		
+		// TODO Auto-generated method stub
+		target.takeDamage(randomGen.nextInt(4));
+		System.out.println("The detagger attacked! It has attacked "+attackCount+" times.");
+		
+
+	}
+
+	@Override
+	public void checkIfDead() 
+	{
+		// TODO Auto-generated method stub
+		if(health <= 0)
+		{
+			this.onDeath();
+			//Callback to main function goes here based on if its a player
+			//or a computer.
+		}
+		
+
+	}
+	public boolean checkIfDead( String rand ) 
+	{
+		// TODO Auto-generated method stub
+		if(health <= 0)
+		{
+			this.onDeath();
+			return true;
+			//Callback to main function goes here based on if its a player
+			//or a computer.
+		}
+		return false;
+
+	}
+	@Override
+	public void takeTurn() 
+	{
+		if(!this.checkIfDead("a"))
+		{
+			this.dealDamage(enemy);
+		}
+		controller.endTurn(this);
+		
+		// TODO Auto-generated method stub
+
+	}
+
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+
+	}
+	public void animate()
+	{
+		if( health <= 0)
+			animateDefeat();
+	}
+	public void animateAttack()
+	{
+		
+	}
+	public void animateTakeDamage()
+	{
+		
+	}
+	public void animateDefeat()
+	{
+		if(graphicDisplay.getYPos() < 600 )
+		{
+			graphicDisplay.moveByInX(10);
+		}
+	}
+	public void animateIdle()
+	{
+		
+	}
+	
+	
+	@Override
+	public void enterCombat(Combatant newEnemy) 
+	{
+		// TODO Auto-generated method stub
+		enemy = newEnemy;
+	}
+}

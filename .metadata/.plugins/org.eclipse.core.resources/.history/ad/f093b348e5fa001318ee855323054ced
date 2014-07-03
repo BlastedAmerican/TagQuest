@@ -1,0 +1,36 @@
+package guiObjects;
+import rpgElements.*;
+import wordHandler.*;
+import java.util.ArrayList;
+/*
+ * Handles tasks involving displaying objects.
+ */
+public class GameDisplayHandler {
+
+	protected ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+	protected ArrayList<WordCube> textList = new ArrayList<WordCube>();
+	public GameDisplayHandler() 
+	{
+		// TODO Auto-generated constructor stub
+	}
+	public void StartGameDraw()
+	{
+		
+	}
+	
+	public void addNewSprite(Sprite newSprite)
+	{
+		spriteList.add( newSprite );
+	}
+	public void addNewWordCube( WordCube newWordCube )
+	{
+		textList.add( newWordCube );
+	}
+
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+}

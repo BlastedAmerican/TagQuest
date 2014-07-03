@@ -1,0 +1,149 @@
+package wordHandler;
+
+import guiObjects.*;
+import rpgElements.*;
+
+import java.util.ArrayList;
+
+public class BlockManager 
+{
+	protected GameDisplayHandler gameHandler;
+	private ArrayList<WordBlock> blockCase = new ArrayList<WordBlock>(); 
+	protected ArrayList<WordTagDisplay> displayTags = new ArrayList<WordTagDisplay>();
+	protected Player player;
+	public BlockManager(GameDisplayHandler passItOn)
+	{
+		//GameDisplayHandler passItOn
+		gameHandler = passItOn;
+
+	}
+	public BlockManager(GameDisplayHandler passItOn, Player player)
+	{
+		this.player = player;
+		//GameDisplayHandler passItOn
+		gameHandler = passItOn;
+
+	}
+	public String onClick( )
+	{
+		if( player != null )
+		{
+			return player.getAction();
+		}
+		return null;
+	}
+	
+	public void PlayerTurnAction(int atk, int def)
+	{
+		player.takeTurn(atk, def);
+		for( WordTagDisplay e: displayTags )
+		{
+			e.updateLocation();
+		}
+	}
+	
+	
+	public void wordTests( )
+	{
+		//gameHandler = passItOn;
+		setBlockCase(new ArrayList<WordBlock>());
+		
+	}
+	public static void main(String[] argv) 
+    {
+        //BlockManager managerTest = new BlockManager();
+        //managerTest.wordTests();
+    }
+	public void makeNewWordBlock( WordTag newTag )
+	{
+		WordBlock newBlock = new WordBlock();
+		blockCase.add(newBlock);
+		newBlock.setGameHandler(this);
+		newBlock.addWord(newTag);
+		newTag.updateWordBlock(newBlock);
+		
+		
+	}
+	public void addWordBlock( WordBlock newBlock )
+	{
+		getBlockCase().add(newBlock);
+	
+	}
+	public void playBlock( String stringPlay )
+	{
+		
+	}
+	
+	public int getWordTagLoc( int startPoint, WordBlock searchBlock )
+	{
+		if( startPoint > blockCase.size() - 1)
+		{
+			return -1;
+		}
+		else if( blockCase.get(startPoint) == searchBlock )
+		{
+			return startPoint;
+		}
+		else
+		{
+			return getWordTagLoc(startPoint+1,searchBlock);
+		}
+	}
+
+	
+	public void generateWordBlock(ArrayList<String> wordList, int[] tagWeights)
+	{
+		ArrayList<String> wordBlock = wordList;
+		int[] tagState = tagWeights;
+		WordBlock newBlock = new WordBlock();
+		newBlock.setGameHandler(this);
+		for(int x = 0; x < wordBlock.size(); x++)
+		{
+			boolean addTagValue;
+			if( tagState[x] == 1)
+			{
+				addTagValue = false;
+			}
+			else
+			{
+				addTagValue = true;
+			}
+			WordTag newTag = new WordTag( wordBlock.get(x),addTagValue,tagState[x], newBlock );
+			newBlock.addWord(newTag);
+			//TEST CREATING DISPLAYABLE WORD
+			WordTagDisplay newWord = new WordTagDisplay(newTag);
+			newWord.init();
+			gameHandler.addNewWordCube(newWord);
+			displayTags.add(newWord);
+			
+			//END TEST CREATING DISPLAYABLE WORD
+			
+		}
+		getBlockCase().add(newBlock);
+		for(WordTagDisplay t: displayTags )
+		{
+			t.updateLocation();
+		}
+	}
+	public void spitOut()
+	{
+		for(int x = 0; x < getBlockCase().size(); x++ )
+		{
+			System.out.println(getBlockCase().get(x).toString() + getBlockCase().get(x).playBlock());
+			
+		}
+	}
+	/**
+	 * @return the blockCase
+	 */
+	public ArrayList<WordBlock> getBlockCase() {
+		return blockCase;
+	}
+	/**
+	 * @param blockCase the blockCase to set
+	 */
+	public void setBlockCase(ArrayList<WordBlock> blockCase) {
+		this.blockCase = blockCase;
+	}
+
+}

@@ -1,0 +1,5 @@
+package guiObjects;
+
+public interface Moveable {
+
+}

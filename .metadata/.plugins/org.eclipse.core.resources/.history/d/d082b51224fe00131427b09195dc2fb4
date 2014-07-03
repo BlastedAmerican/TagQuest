@@ -1,0 +1,72 @@
+package guiObjects;
+
+import wordHandler.*;
+
+public class WordTagDisplay extends WordCube {
+
+	protected WordTag parentTag;
+	protected int globalXStart = 300;
+	protected int globalYStart = 0;
+	protected int globalYShift = 25;
+	protected int globalXShift = 100;
+	
+	public WordTagDisplay() 
+	{
+		// TODO Auto-generated constructor stub
+	}
+
+	
+	
+	
+	public WordTagDisplay( WordTag tagDisplay ) 
+	{
+		parentTag = tagDisplay;
+		label = parentTag.getWord();
+		
+		
+		//super(text);
+		// TODO Auto-generated constructor stub
+	}
+
+	public void updateLocation()
+	{
+		WordBlock parentContainer = parentTag.getWordBlock();
+		int xMovementFactor = parentContainer.getWordTagLocX(0, parentTag);
+		int yMovementFactor = parentContainer.getWordTagLocY(0);
+		//System.out.println(xMovementFactor + " by " + yMovementFactor );
+		setWordTagLink(parentTag);
+		this.updateXLocation( globalXStart + globalXShift*xMovementFactor );
+		this.updateYLocation( globalYStart + globalYShift*yMovementFactor );
+		//Test method to set color by line.
+		setColor((float)(yMovementFactor*.10),(float)(yMovementFactor*.10),(float)(yMovementFactor*.1));
+		
+		
+	}
+	public void mouseDown( boolean mouseDown )
+	{
+		if( mouseDown && mouseOver )
+		{
+			
+			//Write a new onClickFunction for the WordTags
+			
+			//Rewrite combat flow a bit.
+			parentTag.onClick();
+			//parentTag.removeTag();
+			isClicked = true;
+			updateLocation();
+		}
+		else
+		{
+			isClicked = false;
+		}
+	}
+	
+	
+	
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+}
