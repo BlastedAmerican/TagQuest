@@ -52,6 +52,8 @@ public class Player extends CombatantBase implements Combatant,Moveable
 		
 		// TODO Auto-generated constructor stub
 	}
+	
+	
 	public Player(AdventureHandler gameRunner, GameDisplayHandler mainDisplay) 
 	{
 		
@@ -63,6 +65,8 @@ public class Player extends CombatantBase implements Combatant,Moveable
 		healthMax = 50;
 		// TODO Auto-generated constructor stub
 	}
+	
+	
 	public Player(AdventureHandler gameRunner, GameDisplayHandler mainDisplay, int health2 ) 
 	{
 		controller = gameRunner;
@@ -78,7 +82,9 @@ public class Player extends CombatantBase implements Combatant,Moveable
 	 */
 	public String getAction() 
 	{
-		return action;
+		String oldAction = action;
+		action = "null";
+		return oldAction;
 	}
 	
 	
@@ -102,6 +108,30 @@ public class Player extends CombatantBase implements Combatant,Moveable
 		//System.out.println(this.action);
 	}
 	
+	public void takeAction( String action )
+	{
+		//New attack strings 
+		// heal, attack, defend, split
+		this.action = action;
+		if(action.equals("heal"))
+		{
+			
+		}
+		if(action.equals("attack"))
+		{
+			
+		}
+		if(action.equals("defend"))
+		{
+			
+		}
+		if(action.equals("split"))
+		{
+			
+		}
+
+	}
+	
 	public void levelUp()
 	{
 		
@@ -118,14 +148,15 @@ public class Player extends CombatantBase implements Combatant,Moveable
 		highlight = new Sprite();
 		highlight.init("sun.png");
 		display.addNewSprite(highlight);
+		highlight.setLocation(-200, -200);
 		
 		
 		//
-		graphicDisplay = new Sprite();
+		//graphicDisplay = new Sprite();
 		healthDisplay = new WordCube();
-		graphicDisplay.init("player.png");
+		this.init("player.png");
 		healthDisplay.init();
-		display.addNewSprite(graphicDisplay);
+		display.addNewSprite(this);
 		display.addNewWordCube(healthDisplay);
 		
 		
@@ -151,6 +182,7 @@ public class Player extends CombatantBase implements Combatant,Moveable
 	
 	protected void setUpWordCubes()
 	{
+		//TODO Player needs to be disconnected from the control of the displayable image.
 		//Need to get a image to display.
 		//Need to display a textbook.
 		//Need to roll randomly.
@@ -200,6 +232,7 @@ public class Player extends CombatantBase implements Combatant,Moveable
 	{
 		tagManager.onWin();
 		won = true;
+		highlight.setLocation(-200, -200);
 	}
 	public void animate()
 	{
@@ -293,11 +326,28 @@ public class Player extends CombatantBase implements Combatant,Moveable
 		
 
 	}
-	public void takeTurn( int damage, int defenseBoost ) 
+	
+	public void heal(int healSize)
+	{
+		int newHealth = this.health + healSize;
+		System.out.println(healSize);
+		System.out.println("Healingup");
+		if( newHealth > this.healthMax)
+		{
+			this.health = this.healthMax;
+		}
+		else
+		{
+			this.health = newHealth;
+		}
+		this.updateHealthDisplay();
+	}
+	public void takeTurn( int damage, int defenseBoost, int healSize ) 
 	{
 		damageReduction = defenseBoost;
 		dealDamage(damage);
-		currentTarget.takeTurn();
+		heal(healSize);
+		//currentTarget.takeTurn();
 		
 
 	}

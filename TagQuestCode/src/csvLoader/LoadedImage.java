@@ -54,6 +54,17 @@ public class LoadedImage
 	{
 		return imageName;
 	}
+	public String getImagePath()
+	{
+		if( imageTags.size() > 0 )
+		{
+			return imageTags.get(0).getFullImagePath();
+		}
+		else
+		{
+			return "null";
+		}
+	}
 	
 	
 	

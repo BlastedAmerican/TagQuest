@@ -9,6 +9,7 @@ public class ImageBuilder
 	protected FileLoader gameLoader;
 	protected Vector<LoadedImage> loadedImages;
 	protected Vector<Vector<String>> loadedTags;
+	protected String loadTarget = "Data/TagQuestSumterExport2/";
 	
 	/*
 	 * Makes a new ImageBuilder
@@ -42,7 +43,7 @@ public class ImageBuilder
 			tagWeight = -1;
 		}
 		// TODO Fix and add actual pathing to the images.
-		LoadedWordTag newTag = new LoadedWordTag(tagString.lastElement(),tagWeight,tagString.get(6),"putPathHere/");
+		LoadedWordTag newTag = new LoadedWordTag(tagString.lastElement(),tagWeight,tagString.get(6),loadTarget);
 		return newTag;
 	}
 	/*
@@ -86,7 +87,7 @@ public class ImageBuilder
 			LoadedImage newImage = this.makeNewImage(wordTag.getTagImage());
 			loadedImages.add(newImage);
 			newImage.addNewTag(wordTag);
-			System.out.println(newImage.getImageName());
+			//System.out.println(newImage.getImageName()+newImage.);
 			//make a new image.
 			//add that image to the list.
 			//add the new tag to that image.
@@ -136,9 +137,13 @@ public class ImageBuilder
 	{
 		
 		ImageBuilder testBuild = new ImageBuilder();
-		testBuild.loadNewLibrary("Data/tagQuestTestExport1.csv");
+		testBuild.loadNewLibrary("Data/TagQuestSumterExport2/TagQuestSumterExport2.csv");
 		testBuild.loadFromVectors();
 		System.out.println(testBuild.getImageList().size());
+		for( LoadedImage e: testBuild.getImageList() )
+		{
+			System.out.println(e.getImagePath());
+		}
 		//System.out.println(testBuild.getImageList().get(1));
 		
 		//Need to write some test cases here.

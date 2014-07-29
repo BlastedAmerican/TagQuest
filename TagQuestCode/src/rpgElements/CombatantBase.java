@@ -4,10 +4,10 @@ import guiObjects.*;
 
 
 
-public class CombatantBase implements Combatant,Moveable
+public class CombatantBase extends Sprite implements Combatant,Moveable 
 {
 	
-	protected Sprite graphicDisplay;
+	//protected Sprite this;
 	protected WordCube healthDisplay;
 	protected int health;
 	protected int healthMax;
@@ -27,7 +27,7 @@ public class CombatantBase implements Combatant,Moveable
 	public void setUp() 
 	{
 		// TODO Auto-generated method stub
-		graphicDisplay = new Sprite();
+		//this = new Sprite();
 		healthDisplay = new WordCube();
 		
 
@@ -80,8 +80,8 @@ public class CombatantBase implements Combatant,Moveable
 		// TODO Auto-generated method stub
 		xLoc = x;
 		yLoc = y;
-		graphicDisplay.updateXLocation(x);
-		graphicDisplay.updateYLocation(y);
+		this.updateXLocation(x);
+		this.updateYLocation(y);
 		healthDisplay.updateXLocation(x);
 		healthDisplay.updateYLocation(y);
 		
@@ -93,7 +93,7 @@ public class CombatantBase implements Combatant,Moveable
 	public void setImage(String imageName) 
 	{
 		// TODO Auto-generated method stub
-		graphicDisplay.init(imageName);
+		this.init(imageName);
 
 	}
 
@@ -106,7 +106,7 @@ public class CombatantBase implements Combatant,Moveable
 	public void render() 
 	{
 		// TODO Auto-generated method stub
-		graphicDisplay.drawQuad();
+		this.drawQuad();
 		healthDisplay.render();
 		
 	}

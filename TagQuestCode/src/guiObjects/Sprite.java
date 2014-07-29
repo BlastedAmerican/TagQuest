@@ -100,6 +100,7 @@ public class Sprite implements Moveable
 		{
 			// load texture from PNG file
 			//boundImage = TextureLoader.getTexture("GIF", ResourceLoader.getResourceAsStream("spaceinvaders/"+imageLocation));
+			//TODO Update this to load from a single target.
 			boundImage = TextureLoader.getTexture("GIF", ResourceLoader.getResourceAsStream("tagQuestImages/"+imageLocation));
 
 //			System.out.println("Texture loaded: "+boundImage);

@@ -27,6 +27,12 @@ public class Button extends Sprite {
 		player.setAction(stateSet);
 	}
 	
+	public void setPlayer(Player newPlayer)
+	{
+		player = newPlayer;
+	}
+	
+	
 	public void mouseDown( boolean mouseDown )
 	{
 		if( mouseDown && mouseOver )

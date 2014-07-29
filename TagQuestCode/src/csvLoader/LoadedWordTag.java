@@ -16,6 +16,7 @@ public class LoadedWordTag
 	protected String imagePath;
 
 	/*
+	 * In the event a word tag is constructed without any input, the tagImage is set to null.
 	 * 
 	 */
 	public LoadedWordTag() 

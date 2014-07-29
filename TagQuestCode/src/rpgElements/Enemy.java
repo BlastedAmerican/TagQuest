@@ -7,6 +7,11 @@ import guiObjects.Sprite;
 import guiObjects.WordCube;
 import java.util.Random;
 import guiObjects.GameDisplayHandler;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.Timer;
+
+
 /**
  * @author FritzOld
  * Enemy is a simple basic enemy. It doesn't require much to function,
@@ -18,6 +23,9 @@ public class Enemy extends CombatantBase {
 	protected Random randomGen = new Random();
 	protected GameDisplayHandler display;
 	protected int attackCount = 0;
+	
+	protected Timer clickTimer;
+	protected ActionListener clickListener;
 	/**
 	 * 
 	 */
@@ -40,12 +48,12 @@ public class Enemy extends CombatantBase {
 	public void setUp() 
 	{
 		// TODO Auto-generated method stub
-		graphicDisplay = new Sprite();
+		//graphicDisplay = new Sprite();
 		healthDisplay = new WordCube();
 		//graphicDisplay.init("enemy.png");
-		graphicDisplay.init("enemy.png");
+		this.init("enemy.png");
 		healthDisplay.init();
-		display.addNewSprite(graphicDisplay);
+		display.addNewSprite(this);
 		display.addNewWordCube(healthDisplay);
 		
 		
@@ -53,7 +61,6 @@ public class Enemy extends CombatantBase {
 		health = 12;
 		healthMax = 12;
 		updateHealthDisplay();
-		
 		
 		
 
@@ -133,6 +140,10 @@ public class Enemy extends CombatantBase {
 		{
 			this.dealDamage(enemy);
 		}
+		else
+		{
+			clickTimer.stop();
+		}
 		controller.endTurn(this);
 		
 		// TODO Auto-generated method stub
@@ -175,5 +186,20 @@ public class Enemy extends CombatantBase {
 	{
 		// TODO Auto-generated method stub
 		enemy = newEnemy;
+		clickListener = new ActionListener() 
+		{
+		      public void actionPerformed(ActionEvent evt) 
+		      {
+		          takeTurn();
+		          
+		          
+		          
+		      }
+		};
+		clickTimer = new Timer(3000,clickListener);
+		clickTimer.start();
+		
+		
+		
 	}
 }

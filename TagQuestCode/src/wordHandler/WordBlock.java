@@ -9,12 +9,26 @@ public class WordBlock
 	protected BlockManager gameHandler;
 	/*
 	 * Placeholder constructor. 
-	 * Doesn't actually serve any purpose.
+	 * Created by version 2 of the generator.
+	 * Needs to create a new wordList.
 	 */
 	public WordBlock()
 	{
+		wordList = new ArrayList<WordTag>();
+	}
+	
+	/*
+	 * Creates a new WordBlock from a single WordTag.
+	 * @param newWord WordTag The new word to be used as the base of the tag.
+	 */
+	public WordBlock( WordTag newWord, BlockManager hq )
+	{
+		wordList = new ArrayList<WordTag>();
+		wordList.add(newWord);
+		gameHandler = hq;
 		
 	}
+	
 	public void setGameHandler(BlockManager gameHandle)
 	{
 		gameHandler = gameHandle;
@@ -27,17 +41,7 @@ public class WordBlock
 	{
 		wordList = newList;
 	}
-	/*
-	 * Creates a new WordBlock from a single WordTag.
-	 * @param newWord WordTag The new word to be used as the base of the tag.
-	 */
-	public WordBlock( WordTag newWord, BlockManager hq )
-	{
-		wordList = new ArrayList<WordTag>();
-		wordList.add(newWord);
-		gameHandler = hq;
-		
-	}
+	
 	/*
 	 * Adds a new word from a WordTag.
 	 * @param WordTag newWord
@@ -78,6 +82,22 @@ public class WordBlock
 		}
 		
 	}
+	public WordTag destroyWord( String removedWord )
+	{
+		WordTag toRemove = findWord( 0, removedWord );
+		if( toRemove != null)
+		{
+			wordList.remove(toRemove);
+			toRemove.updateWordBlock(null);
+			//gameHandler.makeNewWordBlock(toRemove);
+			return toRemove;
+		}
+		else
+		{
+			System.out.println("ERROR WORD NOT FOUND");
+			return null;
+		}
+	}
 	
 	public void onClick( WordTag callTag )
 	{
@@ -88,14 +108,26 @@ public class WordBlock
 			if(actionToTake.equals("attack"))
 			{
 				int damageValue = this.playBlock();
-				gameHandler.PlayerTurnAction(damageValue, 0);
+				gameHandler.PlayerTurnAction(damageValue, 0, 0);
 				//Secondary forward call again.
 			}
 			else if(actionToTake.equals("defend"))
 			{
-				this.removeWord(callTag.getWord());
-				gameHandler.PlayerTurnAction(0,2);
+				int damageValue = this.playBlock();
+				gameHandler.PlayerTurnAction(0,damageValue,0);
 				//Secondary call forward to inform turn over.
+			}
+			else if(actionToTake.equals("heal"))
+			{
+				int healSize = this.playBlock();
+				gameHandler.PlayerTurnAction(0,0,healSize*2);
+				System.out.println("Error, fairy in bottle not found");
+			}
+			else if(actionToTake.equals("split"))
+			{
+				//this.removeWord(callTag.getWord());
+				this.destroyWord(callTag.getWord());
+				
 			}
 			else
 			{

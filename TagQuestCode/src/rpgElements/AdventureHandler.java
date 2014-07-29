@@ -13,8 +13,17 @@ public class AdventureHandler
 	protected Player player;
 	protected Combatant activeEnemy;
 	protected GameDisplayHandler objectDisplay;
+	////////
 	protected Button attackButton;
+	/////////nnnnnnnnnnnnnn
+	protected RevampledCombatButton newAttack;
+	protected RevampledCombatButton newDefend;
+	protected RevampledCombatButton newSplit;
+	protected RevampledCombatButton newHeal;
+	/////////nnnnnnnnnnnnnn
 	protected Button defendButton;
+	////////
+	
 	protected int enemyCount = 2;
 	protected Sprite highlight;
 	protected NewGameButton startButton;
@@ -63,6 +72,40 @@ public class AdventureHandler
 		
 	}
 	*/
+	public void setUpButtons()
+	{
+		//Making new sets of buttons here.
+		//Why not just hard code them.
+		if(attackButton == null)
+		{
+//			attackButton = new Button("attack.png","attack.png","attack",player );
+//			moveThings.add(attackButton);
+//			defendButton = new Button("defend.png","defend.png","defend",player );
+//			moveThings.add(defendButton);
+//			System.out.println("Making new button.");
+		
+			newAttack = new RevampledCombatButton("attack.png","attack.png","attack",player,180 );
+			moveThings.add(newAttack);
+			newDefend = new RevampledCombatButton("defend.png","defend.png","defend",player,120);
+			moveThings.add(newDefend);
+			newSplit = new RevampledCombatButton("attack.png","attack.png","split",player,60);
+			moveThings.add(newSplit);
+			newHeal = new RevampledCombatButton("health.png","health.png","heal",player,600);
+			moveThings.add(newHeal);
+			
+			 
+		}
+		else
+		{
+			newAttack.setPlayer(player);
+			newDefend.setPlayer(player);
+			newSplit.setPlayer(player);
+			newHeal.setPlayer(player);
+		}
+		
+		
+		
+	}
 	public void playSetUp()
 	{
 		//Move all other objects somewhere else?
@@ -70,17 +113,25 @@ public class AdventureHandler
 		player = new Player(this,objectDisplay,playerHealth);
 		moveThings.add(player);
 		//SET UP BUTTONS
-		attackButton = new Button("attack.png","attack.png","attack",player );
-		moveThings.add(attackButton);
-		defendButton = new Button("defend.png","defend.png","defend",player );
-		moveThings.add(defendButton);
+		setUpButtons();
+		
 //		highlight = new Sprite();
 //		highlight.init("sun.png");
 //		objectDisplay.addNewSprite(highlight);
-		objectDisplay.addNewSprite(attackButton);
-		objectDisplay.addNewSprite(defendButton);
-		attackButton.setLocation(0,0);
-		defendButton.setLocation(100,0);
+//		objectDisplay.addNewSprite(attackButton);
+//		objectDisplay.addNewSprite(defendButton);
+		////////
+//		attackButton.setLocation(0,0);
+//		defendButton.setLocation(100,0);
+		////////
+		newAttack.setLocation(0, 0);
+		newDefend.setLocation(100, 0);
+		newSplit.setLocation(200, 0);
+		newHeal.setLocation(0, 100);
+		objectDisplay.addNewSprite(newAttack);
+		objectDisplay.addNewSprite(newDefend);
+		objectDisplay.addNewSprite(newSplit);
+		objectDisplay.addNewSprite(newHeal);
 		//END BUTTON SET UP
 		
 		nixonsList = new ArrayList<Enemy>();

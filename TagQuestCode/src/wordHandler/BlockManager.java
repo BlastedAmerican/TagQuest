@@ -44,9 +44,9 @@ public class BlockManager
 		return null;
 	}
 	
-	public void PlayerTurnAction(int atk, int def)
+	public void PlayerTurnAction(int atk, int def, int heal)
 	{
-		player.takeTurn(atk, def);
+		player.takeTurn(atk, def, heal);
 //		for( WordTagDisplay e: displayTags )
 //		{
 //			e.updateLocation();

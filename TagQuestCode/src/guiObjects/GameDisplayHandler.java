@@ -68,6 +68,7 @@ public class GameDisplayHandler
 		//TEMPORARY
 		while (!Display.isCloseRequested()) 
 		{
+			Display.sync(60);
 			int mouseXPos = Mouse.getX();
 			int mouseYPos = Math.abs( 600-Mouse.getY() );
 			boolean isMouseDown = Mouse.isButtonDown(0);

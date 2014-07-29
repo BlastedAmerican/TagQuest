@@ -109,7 +109,11 @@ public class WordTag
 	}
 	public boolean isPlayable()
 	{
-		if(wordContainer.getState())
+		if( wordContainer == null)
+		{
+			return false;
+		}
+		else if(wordContainer.getState())
 		{
 			return true;
 		}

@@ -1,0 +1,19 @@
+New Combat abilities
+-Make new abilities
+	-Refresh a row. - 5 seconds
+	-Attack with a row and remove it. - 3 seconds
+	-Defend and burn a object. - 2 second
+	-Heal health and use a row. - 10 seconds
+	
+-New Button System
+	-OnClick 
+		If button is clickable.
+		 - Fire the event, 
+		 - set the button to be unclickable. 
+		 - then set the timer.
+	-On Timer Tickdown
+		 -Set the canClick value back to true
+		 
+
+	
+	
