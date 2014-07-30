@@ -115,6 +115,7 @@ public class RevampledCombatButton extends Button
 		
 		super.drawQuad();
 		timerCount = timerCount + 1;
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 		Color.green.bind();
 		//boundImage.bind(); // or GL11.glBind(texture.getTextureID());
 		// set the color of the quad (R,G,B,A)

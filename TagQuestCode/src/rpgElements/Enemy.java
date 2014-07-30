@@ -24,8 +24,8 @@ public class Enemy extends CombatantBase {
 	protected GameDisplayHandler display;
 	protected int attackCount = 0;
 	
-	protected Timer clickTimer;
-	protected ActionListener clickListener;
+	protected int attackTimer;
+	
 	/**
 	 * 
 	 */
@@ -70,6 +70,8 @@ public class Enemy extends CombatantBase {
 	{
 		//Death animation goes here.
 	}
+	
+	
 
 	@Override
 	public void onDeath() 
@@ -133,6 +135,18 @@ public class Enemy extends CombatantBase {
 		return false;
 
 	}
+	
+	public void drawQuad()
+	{
+		super.drawQuad();
+		attackTimer += 1;
+		if( attackTimer > 300 && enemy != null )
+		{
+			takeTurn();
+			attackTimer = 0;
+		}
+	}
+	
 	@Override
 	public void takeTurn() 
 	{
@@ -142,7 +156,7 @@ public class Enemy extends CombatantBase {
 		}
 		else
 		{
-			clickTimer.stop();
+			//clickTimer.stop();
 		}
 		controller.endTurn(this);
 		
@@ -186,18 +200,18 @@ public class Enemy extends CombatantBase {
 	{
 		// TODO Auto-generated method stub
 		enemy = newEnemy;
-		clickListener = new ActionListener() 
-		{
-		      public void actionPerformed(ActionEvent evt) 
-		      {
-		          takeTurn();
-		          
-		          
-		          
-		      }
-		};
-		clickTimer = new Timer(3000,clickListener);
-		clickTimer.start();
+//		clickListener = new ActionListener() 
+//		{
+//		      public void actionPerformed(ActionEvent evt) 
+//		      {
+//		          takeTurn();
+//		          
+//		          
+//		          
+//		      }
+//		};
+//		clickTimer = new Timer(3000,clickListener);
+//		clickTimer.start();
 		
 		
 		
