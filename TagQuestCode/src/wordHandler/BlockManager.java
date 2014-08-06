@@ -37,9 +37,12 @@ public class BlockManager
 	}
 	public String onClick( )
 	{
+		
 		if( player != null )
 		{
-			return player.getAction();
+			String playerAction = player.getAction();
+			player.setAction("null");
+			return playerAction;
 		}
 		return null;
 	}
@@ -105,7 +108,7 @@ public class BlockManager
 	public void generateWordBlock(ArrayList<String> wordList, int[] tagWeights)
 	{
 		
-		System.out.println("GeneratingBlock");
+		//System.out.println("GeneratingBlock");
 		ArrayList<String> wordBlock = wordList;
 		int[] tagState = tagWeights;
 		WordBlock newBlock = new WordBlock();
@@ -145,7 +148,7 @@ public class BlockManager
 			t.updateLocation();
 		}
 		
-		System.out.println("BlockFinished");
+		//System.out.println("BlockFinished");
 	}
 	public void sizeUp(int yLocation)
 	{

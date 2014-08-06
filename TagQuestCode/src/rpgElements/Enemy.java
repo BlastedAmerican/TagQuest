@@ -5,11 +5,18 @@ package rpgElements;
 
 import guiObjects.Sprite;
 import guiObjects.WordCube;
+
 import java.util.Random;
+
 import guiObjects.GameDisplayHandler;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.Timer;
+
+import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Color;
 
 
 /**
@@ -25,6 +32,10 @@ public class Enemy extends CombatantBase {
 	protected int attackCount = 0;
 	
 	protected int attackTimer;
+	protected int maxAttackTimer = 300;
+	
+	protected int flashTimer = 0;
+	
 	
 	/**
 	 * 
@@ -42,6 +53,7 @@ public class Enemy extends CombatantBase {
 		controller = gameRunner;
 		display = mainDisplay;
 		setUp();
+		
 	}
 	
 	@Override
@@ -81,7 +93,7 @@ public class Enemy extends CombatantBase {
 		//controller.enemyDeath(this);
 		this.animateDefeat();
 		controller.onEnemyDeath(this);
-		System.out.println("The de-tagger has been destroyed.");
+		//System.out.println("The de-tagger has been destroyed.");
 		
 
 	}
@@ -89,6 +101,7 @@ public class Enemy extends CombatantBase {
 	@Override
 	public void takeDamage(int damage) 
 	{
+		flashTimer = 30;
 		// TODO Auto-generated method stub
 		health = health - damage;
 		updateHealthDisplay();
@@ -99,12 +112,12 @@ public class Enemy extends CombatantBase {
 	@Override
 	public void dealDamage(Combatant target) 
 	{
-		System.out.println("\"Beep boop destory stupid robot\"");
+		//System.out.println("\"Beep boop destory stupid robot\"");
 		attackCount++;
 		
 		// TODO Auto-generated method stub
-		target.takeDamage(randomGen.nextInt(4));
-		System.out.println("The detagger attacked! It has attacked "+attackCount+" times.");
+		target.takeDamage(randomGen.nextInt(4)+3);
+		//System.out.println("The detagger attacked! It has attacked "+attackCount+" times.");
 		
 
 	}
@@ -140,11 +153,47 @@ public class Enemy extends CombatantBase {
 	{
 		super.drawQuad();
 		attackTimer += 1;
-		if( attackTimer > 300 && enemy != null )
+		if( attackTimer > maxAttackTimer && enemy != null )
 		{
 			takeTurn();
 			attackTimer = 0;
 		}
+		
+		flashTimer += -1;
+		if( flashTimer > 0)
+		{
+			healthDisplay.setColor(1, 0, 0);
+		}
+		else
+		{
+			healthDisplay.setColor(0, 0, 0);
+		}
+		
+		
+		
+		
+		if( enemy != null )
+		{
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+		Color.green.bind();
+		
+		GL11.glColor3f(.5f,.5f,.5f);
+		
+		// draw quad
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glTexCoord2f(0,0);
+		GL11.glVertex2f(xPos,yPos-50);
+		//+((float)attackTimer/(float)maxAttackTimer*boundImage.getImageHeight())
+		GL11.glTexCoord2f(1,0);
+		GL11.glVertex2f(xPos+((float)attackTimer/(float)maxAttackTimer*boundImage.getImageWidth()),yPos -50);
+		//+((float)attackTimer/(float)maxAttackTimer*boundImage.getImageHeight()))
+		GL11.glTexCoord2f(1,1);
+		GL11.glVertex2f(xPos+((float)attackTimer/(float)maxAttackTimer*boundImage.getImageWidth()),yPos -25);
+		GL11.glTexCoord2f(0,1);
+		GL11.glVertex2f(xPos,yPos-25);
+		GL11.glEnd();
+		}
+		
 	}
 	
 	@Override

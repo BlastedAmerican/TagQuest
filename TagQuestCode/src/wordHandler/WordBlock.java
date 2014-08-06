@@ -1,12 +1,22 @@
 package wordHandler;
 
 import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.io.OutputStreamWriter;
 
 public class WordBlock 
 {
 	public ArrayList<WordTag> wordList = new ArrayList<WordTag>(); // The ArrayList storing WordTags.
 	protected boolean playState = true; //Can this block be played or not?
 	protected BlockManager gameHandler;
+	
+	
 	/*
 	 * Placeholder constructor. 
 	 * Created by version 2 of the generator.
@@ -87,8 +97,11 @@ public class WordBlock
 		WordTag toRemove = findWord( 0, removedWord );
 		if( toRemove != null)
 		{
+			writeToFile(removedWord);
 			wordList.remove(toRemove);
+			
 			toRemove.updateWordBlock(null);
+			
 			//gameHandler.makeNewWordBlock(toRemove);
 			return toRemove;
 		}
@@ -98,6 +111,14 @@ public class WordBlock
 			return null;
 		}
 	}
+	
+	public void writeToFile( String toWrite )
+	{
+		System.out.println(toWrite);
+ 
+		
+	}
+	
 	
 	public void onClick( WordTag callTag )
 	{
@@ -121,7 +142,7 @@ public class WordBlock
 			{
 				int healSize = this.playBlock();
 				gameHandler.PlayerTurnAction(0,0,healSize*2);
-				System.out.println("Error, fairy in bottle not found");
+				//System.out.println("Error, fairy in bottle not found");
 			}
 			else if(actionToTake.equals("split"))
 			{

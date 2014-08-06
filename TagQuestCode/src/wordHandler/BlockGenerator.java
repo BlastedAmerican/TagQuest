@@ -21,7 +21,7 @@ public class BlockGenerator
 			+ " works, hangs, steel, fires, seas, arms, hands, canon, bomb, strap, balls, road, work,"
 			+ " help, team, move, tools, boots, hardhat, peoples, engineer, submarine, construct,"
 			+ " some, blak, rope, bags, dril, toys, hats, caps, drill, adult, foots, feets";
-	protected String fakes = "Tiltfactor, potato, longstring, pikachu, fritz, sukie, gareth";
+	protected String fakes = "ice, bike, chain, wire, brick, snow, spokes, old, maguffin";
 	protected String boat = "coast, guard, ship, ocean, long, usa, emblem, boat, oceans, people,"
 			+ " sailor, planks, sailing, shipping, flagpole, water, ships, travel, voyage, donkno,"
 			+ " lovelys, seas, sails, flags, pillar, sail, waters, rescue, lirate, pirate, ferries,"
@@ -113,9 +113,9 @@ public class BlockGenerator
 		//spitOut(gennedList);
 		if( wordHandler != null)
 		{
-			System.out.println("Start2");
+			//System.out.println("Start2");
 			wordHandler.generateWordBlock(gennedList, intList);
-			System.out.println("End2");
+			//System.out.println("End2");
 		}
 		return gennedList;
 	}
@@ -163,9 +163,9 @@ public class BlockGenerator
 		//spitOut(gennedList);
 		if( wordHandler != null)
 		{
-			System.out.println("Start2");
+			//System.out.println("Start2");
 			wordHandler.generateWordBlock(gennedList, intList);
-			System.out.println("End2");
+			//System.out.println("End2");
 		}
 		return gennedList;
 	}
@@ -180,8 +180,8 @@ public class BlockGenerator
 		}
 		else
 		{
-			LowTagLabeler++;
-			return "LowWeightTag"+LowTagLabeler;
+			int randRoll = gen.nextInt(fakesArray.size());
+			return fakesArray.get(randRoll);
 		}
 		//return "null";
 		

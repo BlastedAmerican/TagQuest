@@ -43,15 +43,17 @@ public class AdventureHandler
 		//playSetUp();
 		mainMenu();
 	}
+	//Clean up and remove unused assets.
 	protected void zoneClear()
 	{
+		//startButton.setLocation(900,900);
 		
 	}
 	
 	public void mainMenu()
 	{
 		startButton = new NewGameButton("a","a",this);
-		startButton.setLocation(400, 500);
+		startButton.setLocation(250, 250);
 		objectDisplay.addNewSprite(startButton);
 	}
 	public void levelUpMenu()
@@ -74,6 +76,7 @@ public class AdventureHandler
 	*/
 	public void setUpButtons()
 	{
+		startButton.setLocation(900,900);
 		//Making new sets of buttons here.
 		//Why not just hard code them.
 		if(attackButton == null)
@@ -84,13 +87,13 @@ public class AdventureHandler
 //			moveThings.add(defendButton);
 //			System.out.println("Making new button.");
 		
-			newAttack = new RevampledCombatButton("attack.png","attack.png","attack",player,180 );
+			newAttack = new RevampledCombatButton("Tag_Quest/attack_transparent_border.png","Tag_Quest/attack_transparent_border.png","attack",player,180 );
 			moveThings.add(newAttack);
-			newDefend = new RevampledCombatButton("defend.png","defend.png","defend",player,120);
+			newDefend = new RevampledCombatButton("Tag_Quest/shield_transparent_border.png","Tag_Quest/shield_transparent_border.png","defend",player,120);
 			moveThings.add(newDefend);
-			newSplit = new RevampledCombatButton("attack.png","attack.png","split",player,60);
+			newSplit = new RevampledCombatButton("Tag_Quest/trash_transparent_border.png","Tag_Quest/trash_transparent_border.png","split",player,60);
 			moveThings.add(newSplit);
-			newHeal = new RevampledCombatButton("health.png","health.png","heal",player,600);
+			newHeal = new RevampledCombatButton("Tag_Quest/heal_transparent_border.png","Tag_Quest/heal_transparent_border.png","heal",player,600);
 			moveThings.add(newHeal);
 			
 			 
@@ -124,10 +127,11 @@ public class AdventureHandler
 //		attackButton.setLocation(0,0);
 //		defendButton.setLocation(100,0);
 		////////
-		newAttack.setLocation(0, 0);
-		newDefend.setLocation(100, 0);
-		newSplit.setLocation(200, 0);
-		newHeal.setLocation(0, 100);
+		newAttack.setLocation(0, 500);
+		newDefend.setLocation(100, 500);
+		//newSplit.setLocation(200, 500);
+		newHeal.setLocation(300, 500);
+		newSplit.setLocation(200, 500);
 		objectDisplay.addNewSprite(newAttack);
 		objectDisplay.addNewSprite(newDefend);
 		objectDisplay.addNewSprite(newSplit);
@@ -167,7 +171,7 @@ public class AdventureHandler
 		for(Enemy e: nixonsList)
 		{
 			x++;
-			e.setLocation(200+100*x,300);
+			e.setLocation(400+100*x,300);
 			//e.setLocation(300+10,200);
 			
 		}
@@ -197,7 +201,9 @@ public class AdventureHandler
 			System.out.println("You win!");
 			playerHealth = player.health;
 			player.victory();
+			this.zoneClear();
 			this.playSetUp();
+			//this.zoneClear();
 			
 			
 		}
@@ -220,7 +226,10 @@ public class AdventureHandler
 	public void onPlayerDeath()
 	{
 		//Code to restart the game goes here.
-		
+		objectDisplay.wipeDrawnObjects();
+		Sprite gameOver = new Sprite(0,0);
+		gameOver.init("gameOver.png");
+		objectDisplay.addNewSprite(gameOver);
 	}
 
 }

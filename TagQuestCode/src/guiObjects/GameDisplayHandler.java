@@ -9,6 +9,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 /*
  * Handles tasks involving displaying objects.
  */
@@ -52,8 +53,9 @@ public class GameDisplayHandler
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glViewport(0,0,800,600);
-		GL11.glMatrixMode(GL11.GL_PROJECTION);
-		GL11.glLoadIdentity();
+		GL11.glTexParameteri (GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
+		//GL11.glMatrixMode(GL11.GL_PROJECTION);
+		//GL11.glLoadIdentity();
 		GL11.glOrtho(0, Display.getWidth(), Display.getHeight(), 0, 1, -1);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		
@@ -104,6 +106,11 @@ public class GameDisplayHandler
 		//System.out.println(spriteList.size());
 		
 	}
+	public void wipeDrawnObjects()
+	{
+		textList = new ArrayList<WordCube>();
+		spriteList =  new ArrayList<Sprite>();
+	}
 	public void addNewWordCube( WordCube newWordCube )
 	{
 		textList.add( newWordCube );
@@ -140,7 +147,7 @@ public class GameDisplayHandler
 	{
 		
 		Sprite Backround = new Sprite(0,0);
-		Backround.init("Backround.jpg");
+		Backround.init("TagQuestBackround2.png");
 		addNewSprite(Backround);
 		gameController = new AdventureHandler(this);
 	}

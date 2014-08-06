@@ -12,8 +12,8 @@ public class NewGameButton extends Button
 {
 	//Updated version of the button, revamping for twitch combat.
 	protected boolean canBeClicked = true;
-	protected Timer clickTimer;
-	protected ActionListener clickListener;
+	//protected Timer clickTimer;
+	//protected ActionListener clickListener;
 	
 	
 	
@@ -26,17 +26,17 @@ public class NewGameButton extends Button
 		call = caller;
 		buttonUp = image;
 		buttonDown = image2;
-		init("startButton.jpg");
+		init("startButton.png");
 		///////
-		clickListener = new ActionListener() 
-		{
-		      public void actionPerformed(ActionEvent evt) 
-		      {
-		          canBeClicked = true;
-		          
-		          
-		      }
-		};
+//		clickListener = new ActionListener() 
+//		{
+//		      public void actionPerformed(ActionEvent evt) 
+//		      {
+//		          canBeClicked = true;
+//		          
+//		          
+//		      }
+//		};
 		//clickTimer = new Timer(1000,clickListener);
 		
 		
@@ -63,9 +63,9 @@ public class NewGameButton extends Button
 		{
 			canBeClicked = false;
 			call.playSetUp();
-			clickTimer = new Timer( 1000, clickListener );
-			clickTimer.start();
-			System.out.println("Clicked");
+			//clickTimer = new Timer( 1000, clickListener );
+			//clickTimer.start();
+			//System.out.println("Clicked");
 		}
 		else
 		{

@@ -7,6 +7,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
@@ -66,22 +67,43 @@ public class Sprite implements Moveable
 		{
 			//GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);	
 
+			
 			Color.white.bind();
-			boundImage.bind(); // or GL11.glBind(texture.getTextureID());
+			//GL11.glTexParameteri (GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP);
+
+			//boundImage.bind(); // or GL11.glBind(texture.getTextureID());
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, boundImage.getTextureID());
+			
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+	        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+	        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
+	        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
+			
+	       // GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0,
+            //        GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, boundImage );
+	        
+	        
+	        
 			// set the color of the quad (R,G,B,A)
 			GL11.glColor3f(1.0f,1.0f,1.0f);
-
+			
 			// draw quad
 			GL11.glBegin(GL11.GL_QUADS);
-			GL11.glTexCoord2f(0,0);
+			
+			GL11.glTexCoord2f(0.0f,0.0f);
 			GL11.glVertex2f(xPos,yPos);
-			GL11.glTexCoord2f(1,0);
-			GL11.glVertex2f(xPos+boundImage.getTextureWidth(),yPos);
-			GL11.glTexCoord2f(1,1);
-			GL11.glVertex2f(xPos+boundImage.getTextureWidth(),yPos+boundImage.getTextureHeight());
-			GL11.glTexCoord2f(0,1);
+			
+			GL11.glTexCoord2f(0.0f,1.0f);
 			GL11.glVertex2f(xPos,yPos+boundImage.getTextureHeight());
+			
+			GL11.glTexCoord2f(1.0f,1.0f);
+			GL11.glVertex2f(xPos+boundImage.getTextureWidth(),yPos+boundImage.getTextureHeight());
+			
+			GL11.glTexCoord2f(1.0f,0.0f);
+			GL11.glVertex2f(xPos+boundImage.getTextureWidth(),yPos);
+			
 			GL11.glEnd();
+			//boundImage.bind();
 		}
 		catch( Exception e )
 		{
@@ -101,11 +123,11 @@ public class Sprite implements Moveable
 			// load texture from PNG file
 			//boundImage = TextureLoader.getTexture("GIF", ResourceLoader.getResourceAsStream("spaceinvaders/"+imageLocation));
 			//TODO Update this to load from a single target.
-			boundImage = TextureLoader.getTexture("GIF", ResourceLoader.getResourceAsStream("tagQuestImages/"+imageLocation));
-
+			boundImage = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("tagQuestImages/"+imageLocation),GL11.GL_NEAREST);
+			//boundImage.bind();
 //			System.out.println("Texture loaded: "+boundImage);
-//			System.out.println(">> Image width: "+boundImage.getImageWidth());
-//			System.out.println(">> Image height: "+boundImage.getImageHeight());
+			//System.out.println(">> Image width: "+boundImage.getImageWidth());
+			//System.out.println(">> Image height: "+boundImage.getImageHeight());
 //			System.out.println(">> Texture width: "+boundImage.getTextureWidth());
 //			System.out.println(">> Texture height: "+boundImage.getTextureHeight());
 //			System.out.println(">> Texture ID: "+boundImage.getTextureID());
@@ -148,6 +170,7 @@ public class Sprite implements Moveable
 		boolean test = this.detectMouseOver();
 		
 	}
+	
 	public boolean detectMouseOver()
 	{
 		if(xPos < mouseXPos && xPos + width > mouseXPos)

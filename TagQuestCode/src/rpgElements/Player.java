@@ -29,11 +29,15 @@ public class Player extends CombatantBase implements Combatant,Moveable
 	protected GameDisplayHandler display;
 	protected boolean turnFinished = false;
 	protected ArrayList<String> levelSeeds;
-	protected Sprite highlight;
+	//protected Sprite highlight;
 	protected Random generation = new Random();
 	protected Combatant currentTarget;
 	protected Sprite imageDisplay;
 	protected int actionsTaken = 0;
+	
+	protected int blinkDamageTimer = 0;
+	
+	protected float[] colorArray = new float[3];
 	
 	protected int level;
 	protected int exp;
@@ -69,6 +73,10 @@ public class Player extends CombatantBase implements Combatant,Moveable
 	
 	public Player(AdventureHandler gameRunner, GameDisplayHandler mainDisplay, int health2 ) 
 	{
+		colorArray[0] = 0;
+		colorArray[1] = 0;
+		colorArray[2] = 0;
+		
 		controller = gameRunner;
 		display = mainDisplay;
 		healthMax = 50;
@@ -82,10 +90,11 @@ public class Player extends CombatantBase implements Combatant,Moveable
 	 */
 	public String getAction() 
 	{
-		String oldAction = action;
-		action = "null";
-		return oldAction;
+		//String oldAction = action;
+		//action = "null";
+		return action;
 	}
+	
 	
 	
 	
@@ -97,13 +106,13 @@ public class Player extends CombatantBase implements Combatant,Moveable
 		this.action = action;
 		if(action.equals("attack"))
 		{
-			highlight.updateXLocation(-15);
-			highlight.updateYLocation(-10);
+			//highlight.updateXLocation(-15);
+			//highlight.updateYLocation(-10);
 		}
 		else
 		{
-			highlight.updateXLocation(90);
-			highlight.updateYLocation(-10);
+			//highlight.updateXLocation(90);
+			//highlight.updateYLocation(-10);
 		}
 		//System.out.println(this.action);
 	}
@@ -145,10 +154,10 @@ public class Player extends CombatantBase implements Combatant,Moveable
 		
 		setUpWordCubes();
 		//
-		highlight = new Sprite();
-		highlight.init("sun.png");
-		display.addNewSprite(highlight);
-		highlight.setLocation(-200, -200);
+		//highlight = new Sprite();
+		//highlight.init("sun.png");
+		//display.addNewSprite(highlight);
+		//highlight.setLocation(-200, -200);
 		
 		
 		//
@@ -180,6 +189,13 @@ public class Player extends CombatantBase implements Combatant,Moveable
 		
 	}
 	
+	public void setLinkedColor( float r, float g, float b)
+	{
+		colorArray[0] = r;
+		colorArray[1] = g;
+		colorArray[2] = b;
+	}
+	
 	protected void setUpWordCubes()
 	{
 		//TODO Player needs to be disconnected from the control of the displayable image.
@@ -202,17 +218,18 @@ public class Player extends CombatantBase implements Combatant,Moveable
 		tagManager = new BlockManager(display,this);
 		tagMaker.setBlockManager(tagManager);
 		tagMaker.setUp();
-		System.out.println("Start");
+		//System.out.println("Start");
 		tagMaker.makeNewBlock(5,seed);
 		tagMaker.makeNewBlock(4,seed);
 		tagMaker.makeNewBlock(4,seed);
 		tagMaker.makeNewBlock(3,seed);
 		tagMaker.makeNewBlock(2,seed);
-		System.out.println("End");
+		//System.out.println("End");
 		//Display the image.
 		imageDisplay = new Sprite();
 		String concat = seed + ".png";
 		imageDisplay.init(concat);
+		imageDisplay.setLocation(0, 0);
 		display.addNewSprite(imageDisplay);
 		
 		
@@ -230,9 +247,10 @@ public class Player extends CombatantBase implements Combatant,Moveable
 	}
 	public void victory()
 	{
+		imageDisplay.setLocation(900, 900);
 		tagManager.onWin();
 		won = true;
-		highlight.setLocation(-200, -200);
+		//highlight.setLocation(-200, -200);
 	}
 	public void animate()
 	{
@@ -270,6 +288,8 @@ public class Player extends CombatantBase implements Combatant,Moveable
 		else
 		{
 			health = health - (damage - damageReduction);
+			blinkDamageTimer = 30;
+			this.setLinkedColor(1, 0, 0);
 		}
 		
 		checkIfDead();
@@ -286,14 +306,15 @@ public class Player extends CombatantBase implements Combatant,Moveable
 	public void dealDamage(Combatant target) 
 	{
 		actionsTaken += 1;
-		System.out.println("ActionsTaken"+actionsTaken);
+		//System.out.println("ActionsTaken"+actionsTaken);
 		// TODO Auto-generated method stub
 		target.takeDamage(1);
 	}
+	
 	public void dealDamage( int damageNumber ) 
 	{
 		// TODO Auto-generated method stub
-		System.out.println("ActionsTaken"+actionsTaken);
+		//System.out.println("ActionsTaken"+actionsTaken);
 		if(damageNumber > 0)
 		{
 			currentTarget.takeDamage(damageNumber*3);
@@ -301,6 +322,8 @@ public class Player extends CombatantBase implements Combatant,Moveable
 		else
 		{
 			health = health - Math.abs(damageNumber);
+			blinkDamageTimer = 30;
+			this.setLinkedColor( .5f, .5f, .5f );
 		}
 		updateHealthDisplay();
 		
@@ -312,6 +335,7 @@ public class Player extends CombatantBase implements Combatant,Moveable
 		// TODO Auto-generated method stub
 		if(health <= 0)
 		{
+			controller.onPlayerDeath();
 			//Callback to main function goes here based on if its a player
 			//or a computer.
 		}
@@ -319,6 +343,20 @@ public class Player extends CombatantBase implements Combatant,Moveable
 
 	}
 
+	public void drawQuad()
+	{
+		super.drawQuad();
+		blinkDamageTimer += -1;
+		if(blinkDamageTimer > 0 )
+		{
+			healthDisplay.setColor( colorArray[0],colorArray[1],colorArray[2]);
+		}
+		else
+		{
+			healthDisplay.setColor( 0, 0, 0);
+		}
+	}
+	
 	@Override
 	public void takeTurn() 
 	{
@@ -329,9 +367,18 @@ public class Player extends CombatantBase implements Combatant,Moveable
 	
 	public void heal(int healSize)
 	{
+		healSize = healSize*2;
 		int newHealth = this.health + healSize;
-		System.out.println(healSize);
-		System.out.println("Healingup");
+		
+		
+		
+		//System.out.println(healSize);
+		//System.out.println("Healingup");
+		if(healSize > 0)
+		{
+		blinkDamageTimer = 30;
+		this.setLinkedColor(0, 1, 0);
+		}
 		if( newHealth > this.healthMax)
 		{
 			this.health = this.healthMax;

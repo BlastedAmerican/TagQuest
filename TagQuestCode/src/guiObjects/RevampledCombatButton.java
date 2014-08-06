@@ -112,25 +112,29 @@ public class RevampledCombatButton extends Button
 	}
 	public void drawQuad()
 	{
-		
+		//this.setLocation(this.xPos+1, this.yPos+1);
 		super.drawQuad();
-		timerCount = timerCount + 1;
+		if( !player.getAction().equals(stateSet) )
+		{
+			timerCount = timerCount + 1;
+		}
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
-		Color.green.bind();
+		
+		//Color.green.bind();
 		//boundImage.bind(); // or GL11.glBind(texture.getTextureID());
 		// set the color of the quad (R,G,B,A)
-		GL11.glColor3f(.5f,.5f,.5f);
+		GL11.glColor4f(.5f,.5f,.5f,.7f);
 		
 		// draw quad
 		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glTexCoord2f(0,0);
-		GL11.glVertex2f(xPos,yPos+((float)timerCount/(float)maxTimerCount*boundImage.getTextureHeight()));
-		GL11.glTexCoord2f(1,0);
-		GL11.glVertex2f(xPos+boundImage.getTextureWidth(),yPos+((float)timerCount/(float)maxTimerCount*boundImage.getTextureHeight()));
-		GL11.glTexCoord2f(1,1);
-		GL11.glVertex2f(xPos+boundImage.getTextureWidth(),yPos+boundImage.getTextureHeight());
-		GL11.glTexCoord2f(0,1);
-		GL11.glVertex2f(xPos,yPos+boundImage.getTextureHeight());
+		GL11.glTexCoord2f(0.0f,0.0f);
+		GL11.glVertex2f(xPos,yPos+((float)timerCount/(float)maxTimerCount*boundImage.getImageHeight()));
+		GL11.glTexCoord2f(0.0f,1.0f);
+		GL11.glVertex2f(xPos+boundImage.getImageWidth(),yPos+((float)timerCount/(float)maxTimerCount*boundImage.getImageHeight()));
+		GL11.glTexCoord2f(1.0f,1.0f);
+		GL11.glVertex2f(xPos+boundImage.getImageWidth(),yPos+boundImage.getImageHeight());
+		GL11.glTexCoord2f(1.0f,0.0f);
+		GL11.glVertex2f(xPos,yPos+boundImage.getImageHeight());
 		GL11.glEnd();
 		if( timerCount > maxTimerCount)
 		{
@@ -145,7 +149,7 @@ public class RevampledCombatButton extends Button
 	
 	public void onClick()
 	{
-		System.out.println(timerCount);
+		//System.out.println(timerCount);
 		if(timerCount >= maxTimerCount)
 		{
 			
@@ -154,12 +158,13 @@ public class RevampledCombatButton extends Button
 			//call.playSetUp();
 			//clickTimer = new Timer( 1000, clickListener );
 			//clickTimer.start();
-			System.out.println("Clicked");
-			System.out.println(stateSet);
+			//System.out.println("Clicked");
+			//System.out.println(stateSet);
 			player.setAction(stateSet);
 		}
 		else
 		{
+			//player.setAction(stateSet);
 			//System.out.println("OnCooldown");
 		}
 		
