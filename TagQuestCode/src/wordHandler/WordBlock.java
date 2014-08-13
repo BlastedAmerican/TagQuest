@@ -141,7 +141,7 @@ public class WordBlock
 			else if(actionToTake.equals("heal"))
 			{
 				int healSize = this.playBlock();
-				gameHandler.PlayerTurnAction(0,0,healSize*2);
+				gameHandler.PlayerTurnAction(0,0,healSize);
 				//System.out.println("Error, fairy in bottle not found");
 			}
 			else if(actionToTake.equals("split"))

@@ -12,7 +12,7 @@ public class WordTagDisplay extends WordCube
 	protected int globalXStart = 300;
 	protected int globalYStart = 0;
 	protected int globalYShift = 25;
-	protected int globalXShift = 100;
+	protected int globalXShift = 75;
 	protected boolean rowMouseOver = false;
 	
 	
@@ -103,6 +103,7 @@ public class WordTagDisplay extends WordCube
 	{
 		if( parentTag != null )
 		{
+			this.updateLocation();
 			Color.green.bind();
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			//Color.white.bind();
@@ -117,39 +118,39 @@ public class WordTagDisplay extends WordCube
 			GL11.glBegin(GL11.GL_QUADS);
 			//GL11.glTexCoord2f(0,0);
 			//if()
-			if(mouseOver && parentTag.isPlayable())
-			{
-				sizeUpLinkedWords();
-				GL11.glVertex2f(xPos-5,yPos-5);
-				//GL11.glTexCoord2f(1,0);
-				GL11.glVertex2f(xPos+width+5,yPos-5);
-				//GL11.glTexCoord2f(1,1);
-				GL11.glVertex2f(xPos+width+5,yPos+height+5);
-				//GL11.glTexCoord2f(0,1);
-				GL11.glVertex2f(xPos-5,yPos+height+5);
-
-			}
-			else if(!mouseOver && rowMouseOver )
-			{
-				//sizeUpLinkedWords();
-				GL11.glVertex2f(xPos-5,yPos-5);
-				//GL11.glTexCoord2f(1,0);
-				GL11.glVertex2f(xPos+width+5,yPos-5);
-				//GL11.glTexCoord2f(1,1);
-				GL11.glVertex2f(xPos+width+5,yPos+height+5);
-				//GL11.glTexCoord2f(0,1);
-				GL11.glVertex2f(xPos-5,yPos+height+5);
-			}
-			else
-			{
+//			if(mouseOver && parentTag.isPlayable())
+//			{
+//				sizeUpLinkedWords();
+//				GL11.glVertex2f(xPos-5,yPos-5);
+//				//GL11.glTexCoord2f(1,0);
+//				GL11.glVertex2f(xPos+width+5,yPos-5);
+//				//GL11.glTexCoord2f(1,1);
+//				GL11.glVertex2f(xPos+width+5,yPos+height+5);
+//				//GL11.glTexCoord2f(0,1);
+//				GL11.glVertex2f(xPos-5,yPos+height+5);
+//
+//			}
+//			else if(!mouseOver && rowMouseOver )
+//			{
+//				//sizeUpLinkedWords();
+//				GL11.glVertex2f(xPos-5,yPos-5);
+//				//GL11.glTexCoord2f(1,0);
+//				GL11.glVertex2f(xPos+width+5,yPos-5);
+//				//GL11.glTexCoord2f(1,1);
+//				GL11.glVertex2f(xPos+width+5,yPos+height+5);
+//				//GL11.glTexCoord2f(0,1);
+//				GL11.glVertex2f(xPos-5,yPos+height+5);
+//			}
+//			else
+//			{
 				GL11.glVertex2f(xPos,yPos);
 				//GL11.glTexCoord2f(1,0);
-				GL11.glVertex2f(xPos+width,yPos);
+				GL11.glVertex2f(xPos+width+50,yPos);
 				//GL11.glTexCoord2f(1,1);
-				GL11.glVertex2f(xPos+width,yPos+height);
+				GL11.glVertex2f(xPos+width+50,yPos+height);
 				//GL11.glTexCoord2f(0,1);
 				GL11.glVertex2f(xPos,yPos+height);
-			}
+			//}
 			GL11.glEnd();
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			if(parentTag.isPlayable())

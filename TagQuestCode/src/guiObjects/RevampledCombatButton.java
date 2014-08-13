@@ -27,6 +27,7 @@ public class RevampledCombatButton extends Button
 	protected Timer clickTimer;
 	protected ActionListener clickListener;
 	protected int maxTimerCount;
+	protected String linkedKey;
 	
 	
 	protected int timerCount = 0;
@@ -86,6 +87,17 @@ public class RevampledCombatButton extends Button
 //		          
 //		      }
 //		};
+		
+		
+		// TODO Auto-generated constructor stub
+	}
+	public RevampledCombatButton(String image, String image2, String input,
+			Player inputReceive, int maxTimer, String linkKey) 
+	{
+		super(image, image2, input, inputReceive);
+		maxTimerCount = maxTimer;
+		timerCount = maxTimer;
+		linkedKey = linkKey;
 		
 		
 		// TODO Auto-generated constructor stub
@@ -168,6 +180,39 @@ public class RevampledCombatButton extends Button
 			//System.out.println("OnCooldown");
 		}
 		
+	}
+	
+	public void checkButtonStates(boolean oneKeyDown, boolean twoKeyDown, boolean threeKeyDown, boolean fourKeyDown )
+	{
+		//Empty method, exists to get overrode, replace with something better later.
+		if(linkedKey.equals("1"))
+		{
+			if( oneKeyDown )
+			{
+				this.onClick();
+			}
+		}
+		if(linkedKey.equals("2"))
+		{
+			if( twoKeyDown )
+			{
+				this.onClick();
+			}
+		}
+		if(linkedKey.equals("3"))
+		{
+			if( threeKeyDown )
+			{
+				this.onClick();
+			}
+		}
+		if(linkedKey.equals("4"))
+		{
+			if( fourKeyDown )
+			{
+				this.onClick();
+			}
+		}
 	}
 
 }

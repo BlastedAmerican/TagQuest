@@ -34,7 +34,7 @@ public class Player extends CombatantBase implements Combatant,Moveable
 	protected Combatant currentTarget;
 	protected Sprite imageDisplay;
 	protected int actionsTaken = 0;
-	
+	protected int levelCount = 0;
 	protected int blinkDamageTimer = 0;
 	
 	protected float[] colorArray = new float[3];
@@ -212,7 +212,8 @@ public class Player extends CombatantBase implements Combatant,Moveable
 		levelSeeds.add("gunnery");
 		levelSeeds.add("boat");
 		
-		String seed = levelSeeds.get( generation.nextInt(3));
+		String seed = levelSeeds.get( generation.nextInt(levelSeeds.size()));
+		levelSeeds.remove(seed);
 		//CODE FOR DISPLAYING WORDS AND WORD TAGS
 		tagMaker = new BlockGenerator();
 		tagManager = new BlockManager(display,this);
@@ -367,7 +368,7 @@ public class Player extends CombatantBase implements Combatant,Moveable
 	
 	public void heal(int healSize)
 	{
-		healSize = healSize*2;
+		healSize = healSize*5;
 		int newHealth = this.health + healSize;
 		
 		

@@ -32,7 +32,7 @@ public class Enemy extends CombatantBase {
 	protected int attackCount = 0;
 	
 	protected int attackTimer;
-	protected int maxAttackTimer = 300;
+	protected int maxAttackTimer = 480;
 	
 	protected int flashTimer = 0;
 	
@@ -175,10 +175,10 @@ public class Enemy extends CombatantBase {
 		if( enemy != null )
 		{
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
-		Color.green.bind();
-		
-		GL11.glColor3f(.5f,.5f,.5f);
-		
+		//Color.green.bind();
+		//System.out.println((float)(attackTimer)/300);
+		//GL11.glColor3f((.07f*((float)(attackTimer))),.5f - (.07f*(float)(attackTimer)),.5f - (.07f*(float)(attackTimer)));
+		GL11.glColor3f((float)(attackTimer)/300,0.3f,0.3f);
 		// draw quad
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glTexCoord2f(0,0);

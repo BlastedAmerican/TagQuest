@@ -204,4 +204,9 @@ public class Sprite implements Moveable
 			isClicked = false;
 		}
 	}
+	
+	public void checkButtonStates(boolean oneKeyDown, boolean twoKeyDown, boolean threeKeyDown, boolean fourKeyDown )
+	{
+		//Empty method, exists to get overrode, replace with something better later.
+	}
 }

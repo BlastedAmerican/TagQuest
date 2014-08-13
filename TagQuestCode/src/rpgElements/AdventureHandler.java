@@ -87,15 +87,15 @@ public class AdventureHandler
 //			moveThings.add(defendButton);
 //			System.out.println("Making new button.");
 		
-			newAttack = new RevampledCombatButton("Tag_Quest/attack_transparent_border.png","Tag_Quest/attack_transparent_border.png","attack",player,180 );
+			newAttack = new RevampledCombatButton("Tag_Quest/attack_transparent_border.png","Tag_Quest/attack_transparent_border.png","attack",player,240,"1" );
 			moveThings.add(newAttack);
-			newDefend = new RevampledCombatButton("Tag_Quest/shield_transparent_border.png","Tag_Quest/shield_transparent_border.png","defend",player,120);
+			newDefend = new RevampledCombatButton("Tag_Quest/shield_transparent_border.png","Tag_Quest/shield_transparent_border.png","defend",player,120,"2");
 			moveThings.add(newDefend);
-			newSplit = new RevampledCombatButton("Tag_Quest/trash_transparent_border.png","Tag_Quest/trash_transparent_border.png","split",player,60);
-			moveThings.add(newSplit);
-			newHeal = new RevampledCombatButton("Tag_Quest/heal_transparent_border.png","Tag_Quest/heal_transparent_border.png","heal",player,600);
+			newHeal = new RevampledCombatButton("Tag_Quest/heal_transparent_border.png","Tag_Quest/heal_transparent_border.png","heal",player,600,"3");
 			moveThings.add(newHeal);
-			
+			newSplit = new RevampledCombatButton("Tag_Quest/trash_transparent_border.png","Tag_Quest/trash_transparent_border.png","split",player,30,"4");
+			moveThings.add(newSplit);
+						
 			 
 		}
 		else
@@ -114,6 +114,7 @@ public class AdventureHandler
 		//Move all other objects somewhere else?
 		//Create Player Object
 		player = new Player(this,objectDisplay,playerHealth);
+		player.heal(2);
 		moveThings.add(player);
 		//SET UP BUTTONS
 		setUpButtons();
@@ -130,8 +131,8 @@ public class AdventureHandler
 		newAttack.setLocation(0, 500);
 		newDefend.setLocation(100, 500);
 		//newSplit.setLocation(200, 500);
-		newHeal.setLocation(300, 500);
-		newSplit.setLocation(200, 500);
+		newHeal.setLocation(200, 500);
+		newSplit.setLocation(300, 500);
 		objectDisplay.addNewSprite(newAttack);
 		objectDisplay.addNewSprite(newDefend);
 		objectDisplay.addNewSprite(newSplit);
