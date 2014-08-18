@@ -1,6 +1,6 @@
 package guiObjects;
 import rpgElements.*;
-import wordHandler.*;
+//import wordHandler.*;
 
 import java.util.ArrayList;
 
@@ -20,11 +20,14 @@ public class GameDisplayHandler
 	protected ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 	protected ArrayList<WordCube> textList = new ArrayList<WordCube>();
 	protected ArrayList<Combatant> fighterList = new ArrayList<Combatant>();
-	
+	protected ArrayList<Sprite> backroundOnly = new ArrayList<Sprite>();
+	//protected GameDisplayHandler display;
 	protected boolean keyOneDown = false;
 	protected boolean keyTwoDown = false;
 	protected boolean keyThreeDown = false;
 	protected boolean keyFourDown = false;
+	protected boolean arePanning = false;
+	protected int panCount = 0;
 	
 
 	protected AdventureHandler gameController;
@@ -148,8 +151,36 @@ public class GameDisplayHandler
 				int mouseYPos = Math.abs( 600-Mouse.getY() );
 				boolean isMouseDown = Mouse.isButtonDown(0);
 
+				if( arePanning )
+				{
+					for( int spriteCount = 0; spriteCount < spriteList.size(); spriteCount++ )
+					{
+						Sprite moveSprite = spriteList.get(spriteCount); 
+						moveSprite.setLocation(moveSprite.getXPos()-1, moveSprite.getYPos());
+					}
+					for( int wordCount = 0; wordCount < textList.size(); wordCount++ )
+					{
+						WordCube fetchedCube = textList.get(wordCount);
+						fetchedCube.setLocation(fetchedCube.getXPos()-1, fetchedCube.getYPos());
+					}
+					panCount = panCount - 1;
+					if( panCount < 0)
+					{
+						arePanning = false;
+						//gameController.playSetUp();
+						System.out.println("Pan done");
+						
+					}
+				}
+				
+				
+				for( int backCount = 0; backCount < backroundOnly.size(); backCount++ )
+				{
+					Sprite backround = backroundOnly.get(backCount); 
+					backround.drawQuad();	
+					
 
-
+				}
 				for( int spriteCount = 0; spriteCount < spriteList.size(); spriteCount++ )
 				{
 					Sprite fetchSprite = spriteList.get(spriteCount); 
@@ -168,6 +199,9 @@ public class GameDisplayHandler
 					fetchCube.getMousePos(mouseXPos, mouseYPos);
 					fetchCube.mouseDown(isMouseDown);
 				}
+				
+				
+				
 				for(Combatant e: fighterList)
 				{
 					e.animate();
@@ -187,6 +221,12 @@ public class GameDisplayHandler
 			//System.out.println(spriteList.size());
 
 		}
+		
+		public void setBackround( Sprite  backroundSprite)
+		{
+			backroundOnly.add( backroundSprite );
+		}
+		
 		public void wipeDrawnObjects()
 		{
 			textList = new ArrayList<WordCube>();
@@ -224,12 +264,26 @@ public class GameDisplayHandler
 		addNewSprite(ButtonDefend);
 			 */
 		}
+		
+		public void panScreen()
+		{
+			Sprite Backround = new Sprite(0,0);
+			
+			Backround.init("TagQuestBackround2.png");
+			
+			setBackround(Backround);
+			Backround.setLocation(800,0);
+			arePanning = true;
+			panCount = 800;
+			
+		}
+		
 		public void loadUpNewGame()
 		{
 
 			Sprite Backround = new Sprite(0,0);
 			Backround.init("TagQuestBackround2.png");
-			addNewSprite(Backround);
+			setBackround(Backround);
 			gameController = new AdventureHandler(this);
 		}
 

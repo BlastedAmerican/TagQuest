@@ -1,8 +1,11 @@
 package rpgElements;
 import java.util.*;
+
 //import guiObjects.GameDisplayHandler;
 import guiObjects.*;
 import rpgElements.*;
+import wordHandler.BlockGenerator;
+import wordHandler.BlockManager;
 /*
  * Adventure Handler is the main control for the 
  * rpg elements in TagQuest. 
@@ -23,12 +26,16 @@ public class AdventureHandler
 	/////////nnnnnnnnnnnnnn
 	protected Button defendButton;
 	////////
+	protected BlockGenerator tagMaker;
+	protected BlockManager tagManager;
+	protected Sprite imageDisplay;
+	protected ArrayList<String> levelSeeds;
 	
 	protected int enemyCount = 2;
 	protected Sprite highlight;
 	protected NewGameButton startButton;
 	protected int playerHealth = 50;
-	protected int level = 1;
+	protected int level = 0;
 	protected ArrayList<Moveable> moveThings = new ArrayList<Moveable>();
 	
 	
@@ -76,6 +83,7 @@ public class AdventureHandler
 	*/
 	public void setUpButtons()
 	{
+		
 		startButton.setLocation(900,900);
 		//Making new sets of buttons here.
 		//Why not just hard code them.
@@ -109,13 +117,23 @@ public class AdventureHandler
 		
 		
 	}
+	public void animateMoveOffscreen()
+	{
+		objectDisplay.panScreen();
+	}
 	public void playSetUp()
 	{
+		playSetUp(0);
+	}
+	public void playSetUp( int offsetByX )
+	{
+		level += 1;
 		//Move all other objects somewhere else?
 		//Create Player Object
 		player = new Player(this,objectDisplay,playerHealth);
 		player.heal(2);
 		moveThings.add(player);
+		this.setUpWordCubesHandler(offsetByX);
 		//SET UP BUTTONS
 		setUpButtons();
 		
@@ -128,11 +146,12 @@ public class AdventureHandler
 //		attackButton.setLocation(0,0);
 //		defendButton.setLocation(100,0);
 		////////
-		newAttack.setLocation(0, 500);
-		newDefend.setLocation(100, 500);
+		newAttack.setLocation(0 + offsetByX, 500);
+		newDefend.setLocation(100+ offsetByX, 500);
 		//newSplit.setLocation(200, 500);
-		newHeal.setLocation(200, 500);
-		newSplit.setLocation(300, 500);
+		System.out.println("Moved button");
+		newHeal.setLocation(200+ offsetByX, 500);
+		newSplit.setLocation(300+ offsetByX, 500);
 		objectDisplay.addNewSprite(newAttack);
 		objectDisplay.addNewSprite(newDefend);
 		objectDisplay.addNewSprite(newSplit);
@@ -155,7 +174,7 @@ public class AdventureHandler
 		
 			
 		}
-		setUpLocations();
+		setUpLocations(offsetByX);
 		if( nixonsList.size() > 0 )
 		{
 			nixonsList.get(0).enterCombat(player);
@@ -168,11 +187,15 @@ public class AdventureHandler
 	
 	protected void setUpLocations()
 	{
+		setUpLocations(0);
+	}
+	protected void setUpLocations( int xOffset)
+	{
 		int x = 0;
 		for(Enemy e: nixonsList)
 		{
 			x++;
-			e.setLocation(400+100*x,300);
+			e.setLocation((400+100*x)+ xOffset,300);
 			//e.setLocation(300+10,200);
 			
 		}
@@ -203,13 +226,59 @@ public class AdventureHandler
 			playerHealth = player.health;
 			player.victory();
 			this.zoneClear();
-			this.playSetUp();
+			this.playSetUp(800);
+			this.animateMoveOffscreen();
+			
+			
 			//this.zoneClear();
 			
 			
 		}
 		
 		
+	}
+	
+	public void setUpWordCubesHandler()
+	{
+		setUpWordCubesHandler( 0 );
+	}
+	
+	public void setUpWordCubesHandler(int x)
+	{
+		//TODO Player needs to be disconnected from the control of the displayable image.
+				//Need to get a image to display.
+				//Need to display a textbook.
+				//Need to roll randomly.
+				//Select a seed at random.
+				//Remove that seed.
+				//Generate the blocks with that seed.
+				//Display that seeds image.
+				//Set up word seeds.
+				levelSeeds = new ArrayList<String>();
+				levelSeeds.add("lizard");
+				levelSeeds.add("gunnery");
+				levelSeeds.add("boat");
+				
+				String seed = levelSeeds.get( level - 1 );
+				levelSeeds.remove(seed);
+				//CODE FOR DISPLAYING WORDS AND WORD TAGS
+				tagMaker = new BlockGenerator();
+				tagManager = new BlockManager(objectDisplay,player);
+				tagMaker.setBlockManager(tagManager);
+				tagMaker.setUp();
+				//System.out.println("Start");
+				tagMaker.makeNewBlock(5,seed);
+				tagMaker.makeNewBlock(4,seed);
+				tagMaker.makeNewBlock(4,seed);
+				tagMaker.makeNewBlock(3,seed);
+				tagMaker.makeNewBlock(2,seed);
+				//System.out.println("End");
+				//Display the image.
+				imageDisplay = new Sprite();
+				String concat = seed + ".png";
+				imageDisplay.init(concat);
+				imageDisplay.setLocation(x, 0);
+				objectDisplay.addNewSprite(imageDisplay);
 	}
 	
 	public void endTurn( Combatant lastPlayer )

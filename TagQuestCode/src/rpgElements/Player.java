@@ -8,7 +8,7 @@ import java.util.Random;
 import guiObjects.GameDisplayHandler;
 import guiObjects.Sprite;
 import guiObjects.WordCube;
-import rpgElements.*;
+//import rpgElements.*;
 import guiObjects.*;
 import wordHandler.*;
 import java.util.*;
@@ -152,7 +152,7 @@ public class Player extends CombatantBase implements Combatant,Moveable
 	{
 		
 		
-		setUpWordCubes();
+		//setUpWordCubes();
 		//
 		//highlight = new Sprite();
 		//highlight.init("sun.png");
@@ -196,47 +196,47 @@ public class Player extends CombatantBase implements Combatant,Moveable
 		colorArray[2] = b;
 	}
 	
-	protected void setUpWordCubes()
-	{
-		//TODO Player needs to be disconnected from the control of the displayable image.
-		//Need to get a image to display.
-		//Need to display a textbook.
-		//Need to roll randomly.
-		//Select a seed at random.
-		//Remove that seed.
-		//Generate the blocks with that seed.
-		//Display that seeds image.
-		//Set up word seeds.
-		levelSeeds = new ArrayList<String>();
-		levelSeeds.add("lizard");
-		levelSeeds.add("gunnery");
-		levelSeeds.add("boat");
-		
-		String seed = levelSeeds.get( generation.nextInt(levelSeeds.size()));
-		levelSeeds.remove(seed);
-		//CODE FOR DISPLAYING WORDS AND WORD TAGS
-		tagMaker = new BlockGenerator();
-		tagManager = new BlockManager(display,this);
-		tagMaker.setBlockManager(tagManager);
-		tagMaker.setUp();
-		//System.out.println("Start");
-		tagMaker.makeNewBlock(5,seed);
-		tagMaker.makeNewBlock(4,seed);
-		tagMaker.makeNewBlock(4,seed);
-		tagMaker.makeNewBlock(3,seed);
-		tagMaker.makeNewBlock(2,seed);
-		//System.out.println("End");
-		//Display the image.
-		imageDisplay = new Sprite();
-		String concat = seed + ".png";
-		imageDisplay.init(concat);
-		imageDisplay.setLocation(0, 0);
-		display.addNewSprite(imageDisplay);
-		
-		
-	
-		
-	}
+//	protected void setUpWordCubes()
+//	{
+//		//TODO Player needs to be disconnected from the control of the displayable image.
+//		//Need to get a image to display.
+//		//Need to display a textbook.
+//		//Need to roll randomly.
+//		//Select a seed at random.
+//		//Remove that seed.
+//		//Generate the blocks with that seed.
+//		//Display that seeds image.
+//		//Set up word seeds.
+//		levelSeeds = new ArrayList<String>();
+//		levelSeeds.add("lizard");
+//		levelSeeds.add("gunnery");
+//		levelSeeds.add("boat");
+//		
+//		String seed = levelSeeds.get( generation.nextInt(levelSeeds.size()));
+//		levelSeeds.remove(seed);
+//		//CODE FOR DISPLAYING WORDS AND WORD TAGS
+//		tagMaker = new BlockGenerator();
+//		tagManager = new BlockManager(display,this);
+//		tagMaker.setBlockManager(tagManager);
+//		tagMaker.setUp();
+//		//System.out.println("Start");
+//		tagMaker.makeNewBlock(5,seed);
+//		tagMaker.makeNewBlock(4,seed);
+//		tagMaker.makeNewBlock(4,seed);
+//		tagMaker.makeNewBlock(3,seed);
+//		tagMaker.makeNewBlock(2,seed);
+//		//System.out.println("End");
+//		//Display the image.
+//		imageDisplay = new Sprite();
+//		String concat = seed + ".png";
+//		imageDisplay.init(concat);
+//		imageDisplay.setLocation(0, 0);
+//		display.addNewSprite(imageDisplay);
+//		
+//		
+//	
+//		
+//	}
 
 	/**
 	 * @param args
@@ -248,8 +248,8 @@ public class Player extends CombatantBase implements Combatant,Moveable
 	}
 	public void victory()
 	{
-		imageDisplay.setLocation(900, 900);
-		tagManager.onWin();
+		//imageDisplay.setLocation(900, 900);
+		//tagManager.onWin();
 		won = true;
 		//highlight.setLocation(-200, -200);
 	}
@@ -259,10 +259,7 @@ public class Player extends CombatantBase implements Combatant,Moveable
 		{
 			this.setLocation(this.xLoc+1, this.yLoc);
 		}
-		else if(this.currentTarget.getXLocation() < 801 && won)
-		{
-			this.setLocation(this.xLoc+1, this.yLoc);
-		}
+		
 		
 		
 	}

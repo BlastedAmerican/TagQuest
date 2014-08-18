@@ -6,10 +6,10 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
-import wordHandler.BlockGenerator;
-import wordHandler.BlockManager;
-import wordHandler.WordTag;
-import wordHandler.WordBlock;
+//import wordHandler.BlockGenerator;
+//import wordHandler.BlockManager;
+//import wordHandler.WordTag;
+//import wordHandler.WordBlock;
 
 import java.util.ArrayList;
 
@@ -30,7 +30,7 @@ public class QuadExample {
 	
 	public void start() 
 	{    	
-		int count = 1;
+		//int count = 1;
 		try 
 		{
 			Display.setDisplayMode(new DisplayMode(800,600));

@@ -1,11 +1,6 @@
 package guiObjects;
 
 import java.io.IOException;
-
-import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.newdawn.slick.Color;
@@ -53,10 +48,19 @@ public class Sprite implements Moveable
 		yPos = yPosition;
 		
 	}
+	/*
+	 * Gets the xPosition of the object.
+	 * @return int The X Position of the sprite. Should be top-left corner.
+	 * 
+	 */
 	public int getXPos()
 	{
 		return xPos;
 	}
+	/*
+	 * Get the y position of the object.
+	 * @return int 
+	 */
 	public int getYPos()
 	{
 		return yPos;
@@ -65,24 +69,13 @@ public class Sprite implements Moveable
 	{
 		try
 		{
-			//GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);	
-
-			
 			Color.white.bind();
-			//GL11.glTexParameteri (GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP);
-
-			//boundImage.bind(); // or GL11.glBind(texture.getTextureID());
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, boundImage.getTextureID());
 			
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
 	        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
 	        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
 	        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
-			
-	       // GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0,
-            //        GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, boundImage );
-	        
-	        
 	        
 			// set the color of the quad (R,G,B,A)
 			GL11.glColor3f(1.0f,1.0f,1.0f);
@@ -103,7 +96,7 @@ public class Sprite implements Moveable
 			GL11.glVertex2f(xPos+boundImage.getTextureWidth(),yPos);
 			
 			GL11.glEnd();
-			//boundImage.bind();
+			
 		}
 		catch( Exception e )
 		{
@@ -167,7 +160,7 @@ public class Sprite implements Moveable
 	{
 		mouseXPos = mouseX;
 		mouseYPos = mouseY;
-		boolean test = this.detectMouseOver();
+		//boolean test = this.detectMouseOver();
 		
 	}
 	

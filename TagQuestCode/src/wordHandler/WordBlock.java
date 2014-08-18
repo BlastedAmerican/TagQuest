@@ -1,14 +1,14 @@
 package wordHandler;
 
 import java.util.ArrayList;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.io.OutputStreamWriter;
+//import java.io.BufferedWriter;
+//import java.io.FileNotFoundException;
+//import java.io.FileOutputStream;
+//import java.io.IOException;
+//import java.io.PrintWriter;
+//import java.io.UnsupportedEncodingException;
+//import java.io.Writer;
+//import java.io.OutputStreamWriter;
 
 public class WordBlock 
 {
@@ -39,6 +39,10 @@ public class WordBlock
 		
 	}
 	
+	/*
+	 * Sets the GameHandler object.
+	 * BlockManager GameHandle
+	 */
 	public void setGameHandler(BlockManager gameHandle)
 	{
 		gameHandler = gameHandle;
@@ -92,6 +96,11 @@ public class WordBlock
 		}
 		
 	}
+	/*
+	 * Removes a word, and destroys its links to the list.
+	 * 
+	 * 
+	 */
 	public WordTag destroyWord( String removedWord )
 	{
 		WordTag toRemove = findWord( 0, removedWord );
@@ -152,7 +161,7 @@ public class WordBlock
 			}
 			else
 			{
-				System.out.println("An error has occurred. Current action: "+ actionToTake );
+				//System.out.println("An error has occurred. Current action: "+ actionToTake );
 			}
 		}
 		else

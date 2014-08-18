@@ -3,20 +3,20 @@
  */
 package rpgElements;
 
-import guiObjects.Sprite;
+//import guiObjects.Sprite;
 import guiObjects.WordCube;
 
 import java.util.Random;
 
 import guiObjects.GameDisplayHandler;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+//import java.awt.event.ActionListener;
+//import java.awt.event.ActionEvent;
 
-import javax.swing.Timer;
+//import javax.swing.Timer;
 
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Color;
+//import org.newdawn.slick.Color;
 
 
 /**
@@ -35,6 +35,7 @@ public class Enemy extends CombatantBase {
 	protected int maxAttackTimer = 480;
 	
 	protected int flashTimer = 0;
+	protected boolean calledAboutDeath = false;
 	
 	
 	/**
@@ -138,10 +139,12 @@ public class Enemy extends CombatantBase {
 	public boolean checkIfDead( String rand ) 
 	{
 		// TODO Auto-generated method stub
-		if(health <= 0)
+		if(health <= 0 && calledAboutDeath == false )
 		{
 			this.onDeath();
+			calledAboutDeath = true;
 			return true;
+			
 			//Callback to main function goes here based on if its a player
 			//or a computer.
 		}
@@ -151,48 +154,56 @@ public class Enemy extends CombatantBase {
 	
 	public void drawQuad()
 	{
-		super.drawQuad();
-		attackTimer += 1;
-		if( attackTimer > maxAttackTimer && enemy != null )
-		{
-			takeTurn();
-			attackTimer = 0;
-		}
+			checkIfDead("thisdoesnothng");
+			super.drawQuad();
+			attackTimer += 1;
+			if( attackTimer > maxAttackTimer && enemy != null )
+			{
+				takeTurn();
+				attackTimer = 0;
+			}
+
+			flashTimer += -1;
+			if( flashTimer > 0)
+			{
+				healthDisplay.setColor(1, 0, 0);
+			}
+			else
+			{
+				healthDisplay.setColor(0, 0, 0);
+			}
+
+
+
+			if( this.health > 0 )
+			{
+				if( enemy != null )
+				{
+					GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+					//Color.green.bind();
+					//System.out.println((float)(attackTimer)/300);
+					//GL11.glColor3f((.07f*((float)(attackTimer))),.5f - (.07f*(float)(attackTimer)),.5f - (.07f*(float)(attackTimer)));
+					GL11.glColor3f((float)(attackTimer)/300,0.3f,0.3f);
+					// draw quad
+					GL11.glBegin(GL11.GL_QUADS);
+					GL11.glTexCoord2f(0,0);
+					GL11.glVertex2f(xPos,yPos-50);
+					//+((float)attackTimer/(float)maxAttackTimer*boundImage.getImageHeight())
+					GL11.glTexCoord2f(1,0);
+					GL11.glVertex2f(xPos+((float)attackTimer/(float)maxAttackTimer*boundImage.getImageWidth()),yPos -50);
+					//+((float)attackTimer/(float)maxAttackTimer*boundImage.getImageHeight()))
+					GL11.glTexCoord2f(1,1);
+					GL11.glVertex2f(xPos+((float)attackTimer/(float)maxAttackTimer*boundImage.getImageWidth()),yPos -25);
+					GL11.glTexCoord2f(0,1);
+					GL11.glVertex2f(xPos,yPos-25);
+					GL11.glEnd();
+				}
+			}
+			else
+			{
+				
+			}
 		
-		flashTimer += -1;
-		if( flashTimer > 0)
-		{
-			healthDisplay.setColor(1, 0, 0);
-		}
-		else
-		{
-			healthDisplay.setColor(0, 0, 0);
-		}
-		
-		
-		
-		
-		if( enemy != null )
-		{
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
-		//Color.green.bind();
-		//System.out.println((float)(attackTimer)/300);
-		//GL11.glColor3f((.07f*((float)(attackTimer))),.5f - (.07f*(float)(attackTimer)),.5f - (.07f*(float)(attackTimer)));
-		GL11.glColor3f((float)(attackTimer)/300,0.3f,0.3f);
-		// draw quad
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glTexCoord2f(0,0);
-		GL11.glVertex2f(xPos,yPos-50);
-		//+((float)attackTimer/(float)maxAttackTimer*boundImage.getImageHeight())
-		GL11.glTexCoord2f(1,0);
-		GL11.glVertex2f(xPos+((float)attackTimer/(float)maxAttackTimer*boundImage.getImageWidth()),yPos -50);
-		//+((float)attackTimer/(float)maxAttackTimer*boundImage.getImageHeight()))
-		GL11.glTexCoord2f(1,1);
-		GL11.glVertex2f(xPos+((float)attackTimer/(float)maxAttackTimer*boundImage.getImageWidth()),yPos -25);
-		GL11.glTexCoord2f(0,1);
-		GL11.glVertex2f(xPos,yPos-25);
-		GL11.glEnd();
-		}
 		
 	}
 	

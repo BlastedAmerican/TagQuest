@@ -1,6 +1,6 @@
 package wordHandler;
 
-import guiObjects.QuadExample;
+//import guiObjects.QuadExample;
 
 import java.util.*;
 

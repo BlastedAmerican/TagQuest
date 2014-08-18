@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.Timer;
 
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Color;
+//import org.newdawn.slick.Color;
 
 import rpgElements.AdventureHandler;
 import rpgElements.Player;

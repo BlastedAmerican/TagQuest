@@ -1,15 +1,15 @@
 package guiObjects;
 
 import java.awt.Font;
-import java.io.InputStream;
+//import java.io.InputStream;
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
+//import org.lwjgl.LWJGLException;
+//import org.lwjgl.opengl.Display;
+//import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.util.ResourceLoader;
+//import org.newdawn.slick.util.ResourceLoader;
 
 import wordHandler.*;
  
