@@ -1,0 +1,18 @@
+How to Set Up TagQuest
+
+1. Clone the Github TagQuest Repo. 
+2. Download Eclipse Kepler 4.3.2 
+3. Open Eclipse, and select cloned repo as the workspace. Check your preferences to make sure you are using Java 1.6 as your compiler.
+4. If this has been properly, you should see a file structure on the left of the workspace. Scale it down, right click and choose refresh. This simply overwrites a very small metadata folder that causes you not to see all class’s in the file.
+5. You now need to set up the Light Weight Java Game Library, and Slick2D.
+	a. For the Light Weight Java Game Library, download version 2.9.1
+	b. For Slick2D, googling it should bring up a download link.
+	c. Install instructions can be found for both online.
+6. Run the MainDisplayHandler.
+
+This should run TagQuest.
+
+Please Comment, Favorite, and Subscribe!
+
+Should this fail to work, contact Fritz.
+john.fritz.wallace@gamil.com
