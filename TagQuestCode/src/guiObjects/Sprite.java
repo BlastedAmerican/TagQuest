@@ -3,6 +3,10 @@ package guiObjects;
 import java.io.IOException;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
@@ -160,7 +164,7 @@ public class Sprite implements Moveable
 	{
 		mouseXPos = mouseX;
 		mouseYPos = mouseY;
-		//boolean test = this.detectMouseOver();
+		boolean test = this.detectMouseOver();
 		
 	}
 	

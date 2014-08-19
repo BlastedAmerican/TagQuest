@@ -127,6 +127,7 @@ public class AdventureHandler
 	}
 	public void playSetUp( int offsetByX )
 	{
+		System.out.println("Testingwork");
 		level += 1;
 		//Move all other objects somewhere else?
 		//Create Player Object

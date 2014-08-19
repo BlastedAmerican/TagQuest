@@ -27,6 +27,7 @@ public class NewGameButton extends Button
 		buttonUp = image;
 		buttonDown = image2;
 		init("startButton.png");
+		
 		///////
 //		clickListener = new ActionListener() 
 //		{
